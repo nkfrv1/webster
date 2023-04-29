@@ -1,0 +1,56 @@
+.FIE_tabs {
+    overflow: hidden;
+}
+
+.FIE_tab {
+    width: 100px !important;
+
+}
+
+.FIE_editor-content {
+//   flex-direction: row !important;
+  height: 100%;
+  
+  .FIE_tools-bar-wrapper {
+    .FIE_tools-bar{
+    //   display: flex !important;
+    //   align-items: flex-start;
+    //   flex-direction: column !important;
+    }
+  }
+    .FIE_canvas-container {
+        
+    }
+
+    .FIE_filters-wrapper {
+    //   background-color: red;
+    //   height: 80vh;
+    //   overflow-y: scroll;
+    //   .FIE_carousel-next-button, .FIE_carousel-prev-button{
+    //     display: none !important;
+    //   }
+    }
+}
+
+// .FIE_filters-items {
+//   display: flex;
+//   flex-direction: column;
+//   li {
+//     width: 100%;
+//     div {
+//         width: 100%;
+//         min-height: 100px;
+//         height: 100%;
+//         div{
+//             div{
+//                 width: 100%;
+//                 height: 100%;
+//                 canvas {
+//                     width: 100%;
+//                     height: 100%;
+//                 }
+//             }
+//         }
+//     }
+//   }
+// }

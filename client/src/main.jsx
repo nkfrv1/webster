@@ -9,8 +9,6 @@ import Auth from './components/containers/auth/Auth';
 import ImageEditor from './components/containers/redactor/ImageEditor';
 import './index.scss';
 
-// Registering Syncfusion license key
-
 const router = createBrowserRouter([
 	{
 		path: '/',
@@ -24,6 +22,7 @@ const router = createBrowserRouter([
 		path: 'editor',
 		element: <ImageEditor />,
 	},
+
 	// {
 	//   path: 'auth/reset-password',
 	//   element: <Reset />

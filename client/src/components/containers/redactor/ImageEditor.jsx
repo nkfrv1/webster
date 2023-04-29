@@ -1,110 +1,209 @@
 import React, { useState, useEffect } from 'react';
 import FilerobotImageEditor, {
-	TABS,
-	TOOLS,
+  TABS,
+  TOOLS,
 } from 'react-filerobot-image-editor';
 import FileSaver from 'file-saver';
+import Groups3SharpIcon from '@mui/icons-material/Groups3Sharp';
 
-const ImageEditor = () => {
-	const [isImgEditorShown, setIsImgEditorShown] = useState(false);
-	const [imagesrc, setImagesrc] = useState();
-	const [imageName, setImageName] = useState();
-	const [imageType, setImageType] = useState();
+const ImageEditor = ({ imageData }) => {
+  const [isImgEditorShown, setIsImgEditorShown] = useState(true);
+  const [imagesrc, setImagesrc] = useState(imageData.imgSrc);
+  const [imageName, setImageName] = useState(imageData.imgName);
+  const [imageType, setImageType] = useState(imageData.imgType);
 
-	const openImgEditor = (event) => {
-		// create a new FileReader object
+  const openImgEditor = (event) => {
+    // create a new FileReader object
+    setIsImgEditorShown(true);
 
-		const reader = new FileReader();
 
-		// set up event listener for the FileReader object
-		reader.onload = () => {
-			const imgData = reader.result;
-			// set the image data as a state variable
-			setImagesrc(imgData);
-			// set editor open
-			setIsImgEditorShown(true);
-		};
-		// getting the name and type of file for setting it automaticly before saving
-		setImageName(event.target.files[0].name.split('.')[0]);
-		setImageType(event.target.files[0].type.split('/')[1]);
-		// read the file data and trigger the event listener
-		reader.readAsDataURL(event.target.files[0]);
-	};
+  };
 
-	const closeImgEditor = () => {
-		setIsImgEditorShown(false);
-	};
+  const closeImgEditor = () => {
+    setIsImgEditorShown(false);
+  };
 
-	return (
-		<div style={{ height: '100vh', width: '100%' }}>
-			<input type="file" onChange={openImgEditor} />
-			{isImgEditorShown && (
-				<FilerobotImageEditor
-					source={imagesrc}
-					// source="https://scaleflex.airstore.io/demo/stephen-walker-unsplash.jpg"
-					onSave={(editedImageObject, designState) => {
-						FileSaver.saveAs(
-							editedImageObject.imageBase64,
-							editedImageObject.fullName
-						);
-						console.log('saved', editedImageObject, designState);
-					}}
-					defaultSavedImageType={imageType}
-					defaultSavedImageName={imageName}
-					onClose={closeImgEditor}
-					annotationsCommon={{
-						fill: '#ff0000',
-					}}
-					Text={{ text: 'Filerobot...' }}
-					Rotate={{ angle: 90, componentType: 'slider' }}
-					Crop={{
-						presetsItems: [
-							{
-								titleKey: 'classicTv',
-								descriptionKey: '4:3',
-								ratio: 4 / 3,
-								//icon: CropClassicTv, // optional, CropClassicTv is a React Function component. Possible (React Function component, string or HTML Element)
-							},
-							{
-								titleKey: 'cinemascope',
-								descriptionKey: '21:9',
-								ratio: 21 / 9,
-								//icon: CropCinemaScope, // optional, CropCinemaScope is a React Function component.  Possible (React Function component, string or HTML Element)
-							},
-						],
+  return (
+    <div style={{  width: '100%', height: 'calc(100vh - 64px)' }}>
+      {/* <input type="file" onChange={openImgEditor} /> */}
+      {isImgEditorShown && (
+        <FilerobotImageEditor
+          source={imagesrc}
+          onSave={(editedImageObject, designState) => {
+            FileSaver.saveAs(
+              editedImageObject.imageBase64,
+              editedImageObject.fullName
+            );
+            console.log('saved', editedImageObject, designState);
+          }}
+          defaultSavedImageType={imageType}
+          defaultSavedImageName={imageName}
+          onClose={closeImgEditor}
+          annotationsCommon={{
+            fill: '#ff0000',
+          }}
+          Text={{ text: 'Filerobot...' }}
+          Rotate={{ angle: 90, componentType: 'slider' }}
+          Crop={{
+            presetsItems: [
+              {
+                titleKey: 'classicTv',
+                descriptionKey: '4:3',
+                ratio: 4 / 3,
+                //icon: CropClassicTv, // optional, CropClassicTv is a React Function component. Possible (React Function component, string or HTML Element)
+              },
+              {
+                titleKey: 'cinemascope',
+                descriptionKey: '21:9',
+                ratio: 21 / 9,
+                //icon: CropCinemaScope, // optional, CropCinemaScope is a React Function component.  Possible (React Function component, string or HTML Element)
+              },
+            ],
 						presetsFolders: [
 							{
 								titleKey: 'socialMedia', // will be translated into Social Media as backend contains this translation key
-								// icon: Social, // optional, Social is a React Function component. Possible (React Function component, string or HTML Element)
+								// icon: <Groups3SharpIcon />, // React component, string or HTML Element
 								groups: [
+									{
+										titleKey: 'linkedIn',
+										items: [
+											{
+												titleKey: 'profilePhoto',
+												width: 400,
+												height: 400,
+												descriptionKey: 'liProfilePhotoSize',
+												disableManualResize: false,
+											},
+											{
+												titleKey: 'profileCoverPhoto',
+												width: 1584,
+												height: 396,
+												descriptionKey: 'liProfileCoverPhotoSize',
+											},
+											{
+												titleKey: 'blogPostPhoto',
+												width: 1200,
+												height: 627,
+												descriptionKey: 'liBlogPostPhotoSize',
+											},
+											{
+												titleKey: 'companyLogo',
+												width: 300,
+												height: 300,
+												descriptionKey: 'liCompanyLogoSize',
+											},
+											{
+												titleKey: 'companyPageCover',
+												width: 1128,
+												height: 191,
+												descriptionKey: 'liCompanyPageCoverSize',
+											},
+										],
+									},
+									{
+										titleKey: 'twitter',
+										items: [
+											{
+												titleKey: 'profilePhoto',
+												width: 400,
+												height: 400,
+												descriptionKey: 'twProfilePhotoSize',
+											},
+											{
+												titleKey: 'headerPhoto',
+												width: 1500,
+												height: 500,
+												descriptionKey: 'twHeaderPhotoSize',
+											},
+											{
+												titleKey: 'inStreamPhoto',
+												width: 1600,
+												height: 1900,
+												descriptionKey: 'twInStreamPhotoSize',
+											},
+										],
+									},
+									{
+										titleKey: 'instagram',
+										items: [
+											{
+												titleKey: 'profilePhoto',
+												width: 320,
+												height: 320,
+												descriptionKey: 'igProfilePhotoSize',
+											},
+											{
+												titleKey: 'feedPortraitPhoto',
+												width: 1080,
+												height: 1350,
+												descriptionKey: 'igFeedPortraitPhotoSize',
+											},
+											{
+												titleKey: 'feedLandscapePhoto',
+												width: 1080,
+												height: 566,
+												descriptionKey: 'igFeedLandscapePhotoSize',
+											},
+											{
+												titleKey: 'feedSquarePhoto',
+												width: 1080,
+												height: 1080,
+												descriptionKey: 'igFeedSquarePhotoSize',
+											},
+											{
+												titleKey: 'storyPhoto',
+												width: 1080,
+												height: 1920,
+												descriptionKey: 'igStoryPhotoSize',
+											},
+										],
+									},
 									{
 										titleKey: 'facebook',
 										items: [
 											{
-												titleKey: 'profile',
-												width: 180,
-												height: 180,
-												descriptionKey: 'fbProfileSize',
+												titleKey: 'profilePhoto',
+												width: 170,
+												height: 170,
+												descriptionKey: 'fbProfilePhotoSize',
 											},
 											{
-												titleKey: 'coverPhoto',
-												width: 820,
-												height: 312,
-												descriptionKey: 'fbCoverPhotoSize',
+												titleKey: 'profileCoverPhoto',
+												width: 851,
+												height: 315,
+												descriptionKey: 'fbProfileCoverPhotoSize',
+											},
+											{
+												titleKey: 'eventCoverPhoto',
+												width: 1200,
+												height: 628,
+												descriptionKey: 'fbEventCoverPhotoSize',
+											},
+											{
+												titleKey: 'timelinePhoto',
+												width: 1200,
+												height: 630,
+												descriptionKey: 'fbTimelinePhotoSize',
+											},
+											{
+												titleKey: 'storyPhoto',
+												width: 1080,
+												height: 1920,
+												descriptionKey: 'fbStoryPhotoSize',
 											},
 										],
 									},
 								],
 							},
-						],
-					}}
-					// tabsIds={[TABS.ADJUST, TABS.ANNOTATE, TABS.WATERMARK]} // or {['Adjust', 'Annotate', 'Watermark']}
-					// defaultTabId={TABS.ANNOTATE} // or 'Annotate'
-					// defaultToolId={TOOLS.TEXT} // or 'Text'
-				/>
-			)}
-		</div>
-	);
+						]
+          }}
+        // tabsIds={[TABS.ADJUST, TABS.ANNOTATE, TABS.WATERMARK]} // or {['Adjust', 'Annotate', 'Watermark']}
+        // defaultTabId={TABS.ANNOTATE} // or 'Annotate'
+        // defaultToolId={TOOLS.TEXT} // or 'Text'
+        />
+      )}
+    </div>
+  );
 };
 
 export default ImageEditor;

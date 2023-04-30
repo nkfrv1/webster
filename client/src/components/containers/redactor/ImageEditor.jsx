@@ -1,64 +1,83 @@
 import React, { useState, useEffect } from 'react';
 import FilerobotImageEditor, {
-  TABS,
-  TOOLS,
+	TABS,
+	TOOLS,
 } from 'react-filerobot-image-editor';
 import FileSaver from 'file-saver';
 import Groups3SharpIcon from '@mui/icons-material/Groups3Sharp';
 
+const styledTheme = {
+	palette: {
+		'bg-secondary': 'rgba(69,80,89, 1)',
+		'bg-primary': 'rgba(12,12,12, 1)',
+		'bg-primary-active': 'rgba(109,128,140, 1)',
+		'txt-primary': 'rgba(199,208,216, 1)',
+		'txt-secondary': 'rgba(199,208,216, 1)',
+		'txt-secondary-invert': 'red',
+		'btn-primary-text': 'rgba(199,208,216, 1)',
+		'accent-primary-active': 'rgba(231, 235, 238, 1)',
+		'bg-stateless': 'red',
+	},
+	
+}
+
 const ImageEditor = ({ imageData }) => {
-  const [isImgEditorShown, setIsImgEditorShown] = useState(true);
-  const [imagesrc, setImagesrc] = useState(imageData.imgSrc);
-  const [imageName, setImageName] = useState(imageData.imgName);
-  const [imageType, setImageType] = useState(imageData.imgType);
+	
+	const [isImgEditorShown, setIsImgEditorShown] = useState(true);
+	const [imagesrc, setImagesrc] = useState(imageData.imgSrc);
+	const [imageName, setImageName] = useState(imageData.imgName);
+	const [imageType, setImageType] = useState(imageData.imgType);
 
-  const openImgEditor = (event) => {
-    // create a new FileReader object
-    setIsImgEditorShown(true);
+	const openImgEditor = (event) => {
+		// create a new FileReader object
+		setIsImgEditorShown(true);
 
 
-  };
+	};
 
-  const closeImgEditor = () => {
-    setIsImgEditorShown(false);
-  };
+	const closeImgEditor = () => {
+		setIsImgEditorShown(false);
+	};
 
-  return (
-    <div style={{  width: '100%', height: 'calc(100vh - 64px)' }}>
-      {/* <input type="file" onChange={openImgEditor} /> */}
-      {isImgEditorShown && (
-        <FilerobotImageEditor
-          source={imagesrc}
-          onSave={(editedImageObject, designState) => {
-            FileSaver.saveAs(
-              editedImageObject.imageBase64,
-              editedImageObject.fullName
-            );
-            console.log('saved', editedImageObject, designState);
-          }}
-          defaultSavedImageType={imageType}
-          defaultSavedImageName={imageName}
-          onClose={closeImgEditor}
-          annotationsCommon={{
-            fill: '#ff0000',
-          }}
-          Text={{ text: 'Filerobot...' }}
-          Rotate={{ angle: 90, componentType: 'slider' }}
-          Crop={{
-            presetsItems: [
-              {
-                titleKey: 'classicTv',
-                descriptionKey: '4:3',
-                ratio: 4 / 3,
-                //icon: CropClassicTv, // optional, CropClassicTv is a React Function component. Possible (React Function component, string or HTML Element)
-              },
-              {
-                titleKey: 'cinemascope',
-                descriptionKey: '21:9',
-                ratio: 21 / 9,
-                //icon: CropCinemaScope, // optional, CropCinemaScope is a React Function component.  Possible (React Function component, string or HTML Element)
-              },
-            ],
+	return (
+		<div style={{ width: '100%', height: 'calc(100vh - 64px)' }} className='editor-wr'>
+			{/* <input type="file" onChange={openImgEditor} /> */}
+			{isImgEditorShown && (
+
+				<FilerobotImageEditor
+					source={imagesrc}
+					
+					onSave={(editedImageObject, designState) => {
+						FileSaver.saveAs(
+							editedImageObject.imageBase64,
+							editedImageObject.fullName
+						);
+						console.log('saved', editedImageObject, designState);
+					}}
+					defaultSavedImageType={imageType}
+					defaultSavedImageName={imageName}
+					onClose={closeImgEditor}
+					annotationsCommon={{
+						fill: '#ff0000',
+					}}
+					theme={styledTheme}
+					Text={{ text: 'Filerobot...' }}
+					Rotate={{ angle: 90, componentType: 'slider' }}
+					Crop={{
+						presetsItems: [
+							{
+								titleKey: 'classicTv',
+								descriptionKey: '4:3',
+								ratio: 4 / 3,
+								//icon: CropClassicTv, // optional, CropClassicTv is a React Function component. Possible (React Function component, string or HTML Element)
+							},
+							{
+								titleKey: 'cinemascope',
+								descriptionKey: '21:9',
+								ratio: 21 / 9,
+								//icon: CropCinemaScope, // optional, CropCinemaScope is a React Function component.  Possible (React Function component, string or HTML Element)
+							},
+						],
 						presetsFolders: [
 							{
 								titleKey: 'socialMedia', // will be translated into Social Media as backend contains this translation key
@@ -196,14 +215,17 @@ const ImageEditor = ({ imageData }) => {
 								],
 							},
 						]
-          }}
-        // tabsIds={[TABS.ADJUST, TABS.ANNOTATE, TABS.WATERMARK]} // or {['Adjust', 'Annotate', 'Watermark']}
-        // defaultTabId={TABS.ANNOTATE} // or 'Annotate'
-        // defaultToolId={TOOLS.TEXT} // or 'Text'
-        />
-      )}
-    </div>
-  );
+					}}
+					
+				// tabsIds={[TABS.ADJUST, TABS.ANNOTATE, TABS.WATERMARK]} // or {['Adjust', 'Annotate', 'Watermark']}
+				// defaultTabId={TABS.ANNOTATE} // or 'Annotate'
+				// defaultToolId={TOOLS.TEXT} // or 'Text'
+				/>
+				
+			)}
+			{console.log(<ImageEditor />)}
+		</div>
+	);
 };
 
 export default ImageEditor;

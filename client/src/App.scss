@@ -3,6 +3,27 @@
 	font-family: 'Poppins';
 	src: url('fonts/Poppins/Poppins-ExtraLight.ttf') format('opentype');
 }
+$At-the-Daybreak-1-hex: #465059;
+$At-the-Daybreak-2-hex: #C7D1D9;
+$At-the-Daybreak-3-hex: #6D808C;
+$At-the-Daybreak-4-hex: #1A2601;
+$At-the-Daybreak-5-hex: #0D0D0D;
+
+/* Color Theme Swatches in RGBA */
+$primary: rgba(69,80,89, 1);
+$typography: rgba(199,208,216, 1);
+$section: rgba(109,128,140, 1);
+$bg-1: rgba(26,38,0, 1);
+$bg-2: rgba(12,12,12, 1);
+
+.drawer-wr {
+	div{
+		color: $typography;
+		background-color: $section;
+
+	}
+}
+
 #root {
 	max-width: 1920px;
 	height: 100vh;

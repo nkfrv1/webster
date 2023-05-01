@@ -1,64 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import FilerobotImageEditor, {
-  TABS,
-  TOOLS,
+	TABS,
+	TOOLS,
 } from 'react-filerobot-image-editor';
 import FileSaver from 'file-saver';
 import Groups3SharpIcon from '@mui/icons-material/Groups3Sharp';
 
-const ImageEditor = ({ imageData }) => {
-  const [isImgEditorShown, setIsImgEditorShown] = useState(true);
-  const [imagesrc, setImagesrc] = useState(imageData.imgSrc);
-  const [imageName, setImageName] = useState(imageData.imgName);
-  const [imageType, setImageType] = useState(imageData.imgType);
+import {
+	selectImageName,
+	selectImageType,
+	selectImageSrc,
+	selectShowEditor,
+	setEditorState,
+} from '../../../features/image/imageSlice';
 
-  const openImgEditor = (event) => {
-    // create a new FileReader object
-    setIsImgEditorShown(true);
+const ImageEditor = () => {
+	const dispatch = useDispatch();
+	const showEditor = useSelector(selectShowEditor);
+	const imageSrc = useSelector(selectImageSrc);
+	const imageName = useSelector(selectImageName);
+	const imageType = useSelector(selectImageType);
 
-
-  };
-
-  const closeImgEditor = () => {
-    setIsImgEditorShown(false);
-  };
-
-  return (
-    <div style={{  width: '100%', height: 'calc(100vh - 64px)' }}>
-      {/* <input type="file" onChange={openImgEditor} /> */}
-      {isImgEditorShown && (
-        <FilerobotImageEditor
-          source={imagesrc}
-          onSave={(editedImageObject, designState) => {
-            FileSaver.saveAs(
-              editedImageObject.imageBase64,
-              editedImageObject.fullName
-            );
-            console.log('saved', editedImageObject, designState);
-          }}
-          defaultSavedImageType={imageType}
-          defaultSavedImageName={imageName}
-          onClose={closeImgEditor}
-          annotationsCommon={{
-            fill: '#ff0000',
-          }}
-          Text={{ text: 'Filerobot...' }}
-          Rotate={{ angle: 90, componentType: 'slider' }}
-          Crop={{
-            presetsItems: [
-              {
-                titleKey: 'classicTv',
-                descriptionKey: '4:3',
-                ratio: 4 / 3,
-                //icon: CropClassicTv, // optional, CropClassicTv is a React Function component. Possible (React Function component, string or HTML Element)
-              },
-              {
-                titleKey: 'cinemascope',
-                descriptionKey: '21:9',
-                ratio: 21 / 9,
-                //icon: CropCinemaScope, // optional, CropCinemaScope is a React Function component.  Possible (React Function component, string or HTML Element)
-              },
-            ],
+	return (
+		<div style={{ width: '100%', height: 'calc(100vh - 64px)' }}>
+			{showEditor && (
+				<FilerobotImageEditor
+					source={imageSrc}
+					onSave={(editedImageObject, designState) => {
+						FileSaver.saveAs(
+							editedImageObject.imageBase64,
+							editedImageObject.fullName
+						);
+						console.log('saved', editedImageObject, designState);
+					}}
+					defaultSavedImageType={imageType}
+					defaultSavedImageName={imageName}
+					onClose={() => dispatch(setEditorState(false))}
+					annotationsCommon={{
+						fill: '#ff0000',
+					}}
+					Text={{ text: 'Filerobot...' }}
+					Rotate={{ angle: 90, componentType: 'slider' }}
+					Crop={{
+						presetsItems: [
+							{
+								titleKey: 'classicTv',
+								descriptionKey: '4:3',
+								ratio: 4 / 3,
+								//icon: CropClassicTv, // optional, CropClassicTv is a React Function component. Possible (React Function component, string or HTML Element)
+							},
+							{
+								titleKey: 'cinemascope',
+								descriptionKey: '21:9',
+								ratio: 21 / 9,
+								//icon: CropCinemaScope, // optional, CropCinemaScope is a React Function component.  Possible (React Function component, string or HTML Element)
+							},
+						],
 						presetsFolders: [
 							{
 								titleKey: 'socialMedia', // will be translated into Social Media as backend contains this translation key
@@ -195,15 +192,15 @@ const ImageEditor = ({ imageData }) => {
 									},
 								],
 							},
-						]
-          }}
-        // tabsIds={[TABS.ADJUST, TABS.ANNOTATE, TABS.WATERMARK]} // or {['Adjust', 'Annotate', 'Watermark']}
-        // defaultTabId={TABS.ANNOTATE} // or 'Annotate'
-        // defaultToolId={TOOLS.TEXT} // or 'Text'
-        />
-      )}
-    </div>
-  );
+						],
+					}}
+					// tabsIds={[TABS.ADJUST, TABS.ANNOTATE, TABS.WATERMARK]} // or {['Adjust', 'Annotate', 'Watermark']}
+					// defaultTabId={TABS.ANNOTATE} // or 'Annotate'
+					// defaultToolId={TOOLS.TEXT} // or 'Text'
+				/>
+			)}
+		</div>
+	);
 };
 
 export default ImageEditor;

@@ -16,16 +16,19 @@ import {
 	Button,
 } from '@mui/material';
 
+import '../../../App.scss';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import UploadFileSharpIcon from '@mui/icons-material/UploadFileSharp';
+import PaidSharpIcon from '@mui/icons-material/PaidSharp';
+
 import {
 	setImageData,
 	setEditorState,
 } from '../../../features/image/imageSlice';
 
 const drawerWidth = 180;
-function CustomDrawer({ onImageUpload }) {
+function CustomDrawer() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	let imageSrc = '';
@@ -61,6 +64,7 @@ function CustomDrawer({ onImageUpload }) {
 
 	return (
 		<Drawer
+			className="drawer-wr"
 			variant="permanent"
 			sx={{
 				width: drawerWidth,
@@ -92,20 +96,20 @@ function CustomDrawer({ onImageUpload }) {
 							<ListItemText primary={'Upload'} />
 						</ListItemButton>
 					</ListItem>
+					<ListItem key="donation" disablePadding>
+						<ListItemButton
+							onClick={(e) => {
+								alert('You got fooled :)');
+							}}
+						>
+							<ListItemIcon>
+								<PaidSharpIcon />
+							</ListItemIcon>
+							<ListItemText primary={'Donation'} />
+						</ListItemButton>
+					</ListItem>
 				</List>
 				<Divider />
-				<List>
-					{['All mail', 'Trash', 'Spam'].map((text, index) => (
-						<ListItem key={text} disablePadding>
-							<ListItemButton>
-								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-								</ListItemIcon>
-								<ListItemText primary={text} />
-							</ListItemButton>
-						</ListItem>
-					))}
-				</List>
 			</Box>
 		</Drawer>
 	);

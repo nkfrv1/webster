@@ -14,6 +14,20 @@ import {
 	setEditorState,
 } from '../../../features/image/imageSlice';
 
+const styledTheme = {
+	palette: {
+		'bg-secondary': 'rgba(69,80,89, 1)',
+		'bg-primary': 'rgba(12,12,12, 1)',
+		'bg-primary-active': 'rgba(109,128,140, 1)',
+		'txt-primary': 'rgba(199,208,216, 1)',
+		'txt-secondary': 'rgba(199,208,216, 1)',
+		'txt-secondary-invert': 'red',
+		'btn-primary-text': 'rgba(199,208,216, 1)',
+		'accent-primary-active': 'rgba(231, 235, 238, 1)',
+		'bg-stateless': 'red',
+	},
+};
+
 const ImageEditor = () => {
 	const dispatch = useDispatch();
 	const showEditor = useSelector(selectShowEditor);
@@ -22,7 +36,10 @@ const ImageEditor = () => {
 	const imageType = useSelector(selectImageType);
 
 	return (
-		<div style={{ width: '100%', height: 'calc(100vh - 64px)' }}>
+		<div
+			style={{ width: '100%', height: 'calc(100vh - 64px)' }}
+			className="editor-wr"
+		>
 			{showEditor && (
 				<FilerobotImageEditor
 					source={imageSrc}
@@ -39,6 +56,7 @@ const ImageEditor = () => {
 					annotationsCommon={{
 						fill: '#ff0000',
 					}}
+					theme={styledTheme}
 					Text={{ text: 'Filerobot...' }}
 					Rotate={{ angle: 90, componentType: 'slider' }}
 					Crop={{
@@ -199,6 +217,7 @@ const ImageEditor = () => {
 					// defaultToolId={TOOLS.TEXT} // or 'Text'
 				/>
 			)}
+			{console.log(<ImageEditor />)}
 		</div>
 	);
 };

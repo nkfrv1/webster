@@ -1,3 +1,13 @@
+$primary: rgba(69,80,89, 1);
+$typography: rgb(231, 235, 238);
+$section: rgba(109,128,140, 1);
+$bg-1: rgba(26,38,0, 1);
+$bg-2: rgba(12,12,12, 1);
+
+.editor-wr {
+  background-color: $bg-1 !important;
+}
+
 .FIE_tabs {
     overflow: hidden;
 }

@@ -1,0 +1,130 @@
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('fonts/Poppins/Poppins-Regular.ttf') format('opentype');
+}
+
+.profile-wr {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    color: #000000;
+    background-color: #D9D9D9;
+    padding-top: 5%;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    .profile-data {
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        // margin: 5% 5%;
+        width: 90%;
+
+        .profile-photo-wr {
+            height: 400px;
+            width: 400px;
+            border-radius: 50%;
+            background-color: #000000;
+            overflow: hidden;
+            border: 2px solid #000000;
+        }
+
+        .profile-username-wr {
+            font-family: 'Poppins-Regular';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 58px;
+            line-height: 87px;
+            /* identical to box height */
+
+
+            color: #000000;
+
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+        }
+    }
+
+    .images-wr {
+        width: 80%;
+        margin: 5% auto 0 auto;
+        height: auto;
+        display: flex;
+        font-size: 24px;
+        flex-basis: content;
+        column-gap: 5%;
+
+        .profile-last-images {
+            height: 250px;
+            background-color: #6D808C;
+            width: 100%;
+
+            .carousel-container {
+                height: 100%;
+                position: relative;
+                .dots-wr {
+                    display: flex;
+                    align-self: center;
+                    position: absolute;
+                    z-index: 2;
+                    bottom: 0;
+                    width: 100%;
+                    justify-content:center;
+                    column-gap: 5px;
+                    margin: 5px auto;
+
+                    .dot {
+                        height: 15px;
+                        cursor: pointer;
+                        width: 15px;
+                        background: rgba(240, 255, 255, 0.596);
+                        border-radius: 50%;
+
+                        &.active {
+                            background: #000000;
+                        }
+                    }
+                }
+                .carousel-wr {
+                    background: #a39292;
+                    display: flex;
+                    width: 100%;
+                    height: 100%;
+                    position: relative;
+                    flex-wrap: nowrap;
+                    overflow: hidden;
+
+                    
+
+                    .carousel-item {
+                        // height: 20rem;
+                        min-width: 100%;
+                        height: 100%;
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: all 1s cubic-bezier(0.375, 0.52, 0.565, 1);
+                        
+                    }
+                }
+            }
+        }
+
+        .profile-last-filter {
+            height: 250px;
+            background-color: #6D808C;
+            width: 100%;
+        }
+    }
+}

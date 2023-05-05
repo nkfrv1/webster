@@ -14,13 +14,13 @@ function Header() {
 					Webster the creator
 				</Typography>
 				<Box className="appbar-nav-btn">
-					<Link to="auth">
+					<Link to="auth#sign-in">
 						Login
 						<IconButton>
 							<LoginSharp />
 						</IconButton>
 					</Link>
-					<Link to="auth">
+					<Link to="auth#sign-up">
 						Sign Up
 						<IconButton>
 							<LogoutSharp />

@@ -5,6 +5,7 @@ import FilerobotImageEditor, {
 } from 'react-filerobot-image-editor';
 import FileSaver from 'file-saver';
 import Groups3SharpIcon from '@mui/icons-material/Groups3Sharp';
+import React, { useRef } from 'react'
 
 import {
 	selectImageName,
@@ -24,7 +25,6 @@ const styledTheme = {
 		'txt-secondary-invert': 'red',
 		'btn-primary-text': 'rgba(199,208,216, 1)',
 		'accent-primary-active': 'rgba(231, 235, 238, 1)',
-		'bg-stateless': 'red',
 	},
 };
 
@@ -34,21 +34,68 @@ const ImageEditor = () => {
 	const imageSrc = useSelector(selectImageSrc);
 	const imageName = useSelector(selectImageName);
 	const imageType = useSelector(selectImageType);
+	const imageEditorRef = useRef(null);
+	const saveFnRef = {};
+
+	const preset = {
+		adjustments: {
+			crop: {
+				isFlippedX: false,
+				isFlippedY: false,
+				ratio: 0.84211,
+				ratioFolderKey: "socialMedia",
+				ratioGroupKey: "twitter",
+				ratioTitleKey: "profilePhoto",
+				rotation: 0,
+
+			},
+		},
+		annotations: {},
+		filter: "Sepia",
+		finetunes: ['Brighten'],
+		finetunesProps: { brightness: 0 },
+		resize: { ratioUnlocked: true, manualChangeDisabled: false },
+		shownImageDimensions: { width: 278.4375, height: 278.4375, scaledBy: 0.9111111111111111 },
+	}
+	console.log(saveFnRef)
+
+	const showState = () => {
+		// const {imageData, designState} = saveFnRef.current.getTransformedImgData
+		console.log(saveFnRef.current);
+	}
 
 	return (
 		<div
 			style={{ width: '100%', height: 'calc(100vh - 64px)' }}
 			className="editor-wr"
 		>
+			<button onClick={showState}>show</button>
 			{showEditor && (
 				<FilerobotImageEditor
+					// ref={imageEditorRef}
 					source={imageSrc}
-					onSave={(editedImageObject, designState) => {
+					getCurrentImgDataFnRef={saveFnRef}
+					// getCurrentImgDataFnRef={{
+					// 	imageData: savedImageData;
+					// 	designState: imageDesignState;
+					// 	hideLoadingSpinner: () => void;
+					// }}
+					// loadableDesignState={preset}
+					onBeforeSave={(imageFileInfo) => {
+						console.log(imageFileInfo);
+						imageFileInfo.quality = 1
+					}}
+					onModify={(currentDesignState) => {
+						// console.log('current design state', currentDesignState);
+						// const savedImgData = saveFnRef.current({ name: 'Custom name ' });
+						// console.log('image after saving', savedImgData);
+					}}
+					onSave={(imageData, imageDesignState) => {
 						FileSaver.saveAs(
-							editedImageObject.imageBase64,
-							editedImageObject.fullName
+							imageData.imageBase64,
+							imageData.fullName
 						);
-						console.log('saved', editedImageObject, designState);
+						console.log('saved', imageData, imageDesignState);
 					}}
 					defaultSavedImageType={imageType}
 					defaultSavedImageName={imageName}
@@ -212,9 +259,9 @@ const ImageEditor = () => {
 							},
 						],
 					}}
-					// tabsIds={[TABS.ADJUST, TABS.ANNOTATE, TABS.WATERMARK]} // or {['Adjust', 'Annotate', 'Watermark']}
-					// defaultTabId={TABS.ANNOTATE} // or 'Annotate'
-					// defaultToolId={TOOLS.TEXT} // or 'Text'
+				// tabsIds={[TABS.ADJUST, TABS.ANNOTATE, TABS.WATERMARK]} // or {['Adjust', 'Annotate', 'Watermark']}
+				// defaultTabId={TABS.ANNOTATE} // or 'Annotate'
+				// defaultToolId={TOOLS.TEXT} // or 'Text'
 				/>
 			)}
 			{console.log(<ImageEditor />)}

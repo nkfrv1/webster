@@ -3,11 +3,11 @@ import '../../../scss/profile.scss'
 
 function Carousel() {
     let data = [
-        // { src: 'https://picsum.photos/id/345/1920/1080/' },
-        // { src: 'https://picsum.photos/id/212/1920/1080' },
-        // { src: 'https://picsum.photos/id/37/1920/1080' },
-        // { src: 'https://picsum.photos/id/137/1920/1080' },
-        // { src: 'https://picsum.photos/id/217/1920/1080' },
+        { src: 'https://picsum.photos/id/345/1920/1080/' },
+        { src: 'https://picsum.photos/id/212/1920/1080' },
+        { src: 'https://picsum.photos/id/37/1920/1080' },
+        { src: 'https://picsum.photos/id/137/1920/1080' },
+        { src: 'https://picsum.photos/id/217/1920/1080' },
     ];
     const [currentindex, setCurrentindex] = useState(0);
 

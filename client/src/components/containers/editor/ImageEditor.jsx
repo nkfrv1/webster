@@ -6,7 +6,7 @@ import FilerobotImageEditor, {
 import FileSaver from 'file-saver';
 import Groups3SharpIcon from '@mui/icons-material/Groups3Sharp';
 import React, { useRef } from 'react'
-
+import CustomDrawer from '../layout/CustomDrawer'
 import {
 	selectImageName,
 	selectImageType,
@@ -14,7 +14,7 @@ import {
 	selectShowEditor,
 	setEditorState,
 } from '../../../features/image/imageSlice';
-
+import '../../../scss/editor.scss'
 const styledTheme = {
 	palette: {
 		'bg-secondary': 'rgba(69,80,89, 1)',
@@ -66,10 +66,11 @@ const ImageEditor = () => {
 
 	return (
 		<div
-			style={{ width: '100%', height: 'calc(100vh - 64px)' }}
+			style={{ width: 'calc(100%-179px)', height: 'calc(100vh - 64px)' }}
 			className="editor-wr"
 		>
-			<button onClick={showState}>show</button>
+		<CustomDrawer />
+			{/* <button onClick={showState}>show</button> */}
 			{showEditor && (
 				<FilerobotImageEditor
 					// ref={imageEditorRef}

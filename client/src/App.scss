@@ -37,6 +37,13 @@ $bg-2: rgba(12,12,12, 1);
 	font-family: 'Poppins-Light';
 	margin: 0;
 	padding: 0;
+	&::-webkit-scrollbar {
+        display: none;
+    }
+
+    
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 .logo {
 	height: 6em;

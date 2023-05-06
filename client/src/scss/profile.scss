@@ -17,14 +17,12 @@
     &::-webkit-scrollbar {
         display: none;
     }
-
     scroll-behavior: smooth;
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
 
     .profile-data {
-
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -32,12 +30,44 @@
         width: 90%;
 
         .profile-photo-wr {
-            height: 400px;
-            width: 400px;
+            height: 300px;
+            width: 300px;
             border-radius: 50%;
             background-color: #000000;
-            overflow: hidden;
-            border: 2px solid #000000;
+            position: relative;
+
+            
+
+            .profile-photo-circles {
+                position: absolute;
+                display: block;
+                z-index: 0;
+                left: 5%;
+                top: 12%;
+                height: 250px;
+                width: 250px;
+                border-radius: 50%;
+                &.blue{
+                    transform: translate(-40%, 10%);
+                    
+                    background-color: rgba(109,128,140, 1);
+                }
+                &.red {
+                    transform: translate(-30%, -20%);
+                    background-color: rgba(69,80,89, 1);
+
+                }
+            }
+
+            .profile-photo-container {
+                overflow: hidden;
+                position: relative;
+                z-index:10;
+                border-radius: 50%;
+                height: 100%;
+                width: 100%;
+                border: 2px solid #000000;
+            }
         }
 
         .profile-username-wr {
@@ -65,13 +95,14 @@
         column-gap: 5%;
 
         .profile-last-images {
-            height: 250px;
+            height: 350px;
             background-color: #6D808C;
             width: 100%;
 
             .carousel-container {
                 height: 100%;
                 position: relative;
+
                 .dots-wr {
                     display: flex;
                     align-self: center;
@@ -79,7 +110,7 @@
                     z-index: 2;
                     bottom: 0;
                     width: 100%;
-                    justify-content:center;
+                    justify-content: center;
                     column-gap: 5px;
                     margin: 5px auto;
 
@@ -95,6 +126,7 @@
                         }
                     }
                 }
+
                 .carousel-wr {
                     background: #a39292;
                     display: flex;
@@ -104,7 +136,7 @@
                     flex-wrap: nowrap;
                     overflow: hidden;
 
-                    
+
 
                     .carousel-item {
                         // height: 20rem;
@@ -115,14 +147,44 @@
                         align-items: center;
                         justify-content: center;
                         transition: all 1s cubic-bezier(0.375, 0.52, 0.565, 1);
-                        
+                        .carousel-item-toolbar {
+                            display: flex;
+                            transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+                            position: absolute;
+                            bottom: 0;
+                            height: 20%;
+                            padding: 1rem 2rem;
+                            width: 100%;
+                            z-index: 10;
+                            background-color: #35313171;
+                            backdrop-filter: blur(10px) !important;
+                            justify-content: flex-end;
+                            column-gap: 1rem;
+                            
+                            div {
+                                background-color: #000000;
+                                transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+                                color: #D9D9D9;
+                                p {
+                                    font-size: 22px;
+                                    font-family: 'Poppins-Regular';
+                                }
+                                padding: 0.2rem 1rem;
+                                border-radius: 10px;
+                                cursor: pointer;
+                                &:hover {
+                                    background-color: #302d2d;
+                                }
+                            }
+                        }
+
                     }
                 }
             }
         }
 
         .profile-last-filter {
-            height: 250px;
+            height: 350px;
             background-color: #6D808C;
             width: 100%;
         }

@@ -5,5 +5,11 @@
 
 .appbar-wr {
     background: rgb(39, 38, 38) !important;
-    font-family: 'Poppins';
+    font-family: 'Poppins-Light';
+    .appbar-nav-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 20px;
+    }
 }

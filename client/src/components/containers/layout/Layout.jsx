@@ -5,7 +5,7 @@ import Header from './Header';
 
 const Layout = () => {
 	return (
-		<Box sx={{height: '100%'}}>
+		<Box sx={{height: '100%', overflow: 'hidden'}}>
 			<Header />
 			{/* <CustomDrawer /> */}
 			<Box component="main" sx={{ flexGrow: 1, marginTop: '64px', height: 'calc(100% - 64px)'}}>

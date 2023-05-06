@@ -10,13 +10,11 @@ const imageSlice = createSlice({
 	},
 	reducers: {
 		setImageData: (state, action) => {
-			console.log(action);
 			state.imageSrc = action.payload.imageSrc;
 			state.imageName = action.payload.imageName;
 			state.imageType = action.payload.imageType;
 		},
 		setEditorState: (state, action) => {
-			console.log(action.payload);
 			state.showEditor = action.payload;
 		},
 	},

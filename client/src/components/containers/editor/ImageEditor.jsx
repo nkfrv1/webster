@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import FilerobotImageEditor, {
 	TABS,
@@ -34,15 +35,47 @@ const ImageEditor = () => {
 	const imageSrc = useSelector(selectImageSrc);
 	const imageName = useSelector(selectImageName);
 	const imageType = useSelector(selectImageType);
+	const imageRef = useRef(null);
+	const imageEditRef = useRef(null);
+	const [preset, setPreset] = useState({});
+
+	const showData = () => {
+		const { designState } = imageRef.current();
+		console.log(designState);
+	};
+
+	const applyFilter = () => {
+		setPreset({
+			...preset,
+			filter: 'Sepia',
+			finetunes: ['Brighten'],
+			finetunesProps: { brightness: 0.55 },
+		});
+	};
+
+	const applyAnotherFilter = () => {
+		setPreset({
+			...preset,
+			filter: 'Moon',
+			finetunes: ['Brighten'],
+			finetunesProps: { brightness: 0.1 },
+		});
+	};
 
 	return (
 		<div
 			style={{ width: '100%', height: 'calc(100vh - 64px)' }}
 			className="editor-wr"
 		>
+			<button onClick={showData}>show</button>
+			<button onClick={applyFilter}>apply</button>
+			<button onClick={applyAnotherFilter}>apply another</button>
 			{showEditor && (
 				<FilerobotImageEditor
 					source={imageSrc}
+					loadableDesignState={preset}
+					getCurrentImgDataFnRef={imageRef}
+					updateStateFnRef={imageEditRef}
 					onSave={(editedImageObject, designState) => {
 						FileSaver.saveAs(
 							editedImageObject.imageBase64,
@@ -217,7 +250,6 @@ const ImageEditor = () => {
 					// defaultToolId={TOOLS.TEXT} // or 'Text'
 				/>
 			)}
-			{console.log(<ImageEditor />)}
 		</div>
 	);
 };

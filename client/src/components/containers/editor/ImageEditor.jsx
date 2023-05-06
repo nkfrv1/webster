@@ -6,7 +6,8 @@ import FilerobotImageEditor, {
 } from 'react-filerobot-image-editor';
 import FileSaver from 'file-saver';
 import Groups3SharpIcon from '@mui/icons-material/Groups3Sharp';
-
+import React, { useRef } from 'react';
+import CustomDrawer from '../layout/CustomDrawer';
 import {
 	selectImageName,
 	selectImageType,
@@ -14,7 +15,7 @@ import {
 	selectShowEditor,
 	setEditorState,
 } from '../../../features/image/imageSlice';
-
+import '../../../scss/editor.scss';
 const styledTheme = {
 	palette: {
 		'bg-secondary': 'rgba(69,80,89, 1)',
@@ -25,7 +26,6 @@ const styledTheme = {
 		'txt-secondary-invert': 'red',
 		'btn-primary-text': 'rgba(199,208,216, 1)',
 		'accent-primary-active': 'rgba(231, 235, 238, 1)',
-		'bg-stateless': 'red',
 	},
 };
 
@@ -38,6 +38,27 @@ const ImageEditor = () => {
 	const imageRef = useRef(null);
 	const imageEditRef = useRef(null);
 	const [preset, setPreset] = useState({});
+
+	// const preset = {
+	// 	adjustments: {
+	// 		crop: {
+	// 			isFlippedX: false,
+	// 			isFlippedY: false,
+	// 			ratio: 0.84211,
+	// 			ratioFolderKey: "socialMedia",
+	// 			ratioGroupKey: "twitter",
+	// 			ratioTitleKey: "profilePhoto",
+	// 			rotation: 0,
+
+	// 		},
+	// 	},
+	// 	annotations: {},
+	// 	filter: "Sepia",
+	// 	finetunes: ['Brighten'],
+	// 	finetunesProps: { brightness: 0 },
+	// 	resize: { ratioUnlocked: true, manualChangeDisabled: false },
+	// 	shownImageDimensions: { width: 278.4375, height: 278.4375, scaledBy: 0.9111111111111111 },
+	// }
 
 	const showData = () => {
 		const { designState } = imageRef.current();
@@ -64,24 +85,32 @@ const ImageEditor = () => {
 
 	return (
 		<div
-			style={{ width: '100%', height: 'calc(100vh - 64px)' }}
+			style={{ width: 'calc(100%-179px)', height: 'calc(100vh - 64px)' }}
 			className="editor-wr"
 		>
+			<CustomDrawer />
 			<button onClick={showData}>show</button>
 			<button onClick={applyFilter}>apply</button>
 			<button onClick={applyAnotherFilter}>apply another</button>
 			{showEditor && (
 				<FilerobotImageEditor
+					// ref={imageEditorRef}
 					source={imageSrc}
+					onBeforeSave={(imageFileInfo) => {
+						console.log(imageFileInfo);
+						imageFileInfo.quality = 1;
+					}}
+					onModify={(currentDesignState) => {
+						// console.log('current design state', currentDesignState);
+						// const savedImgData = saveFnRef.current({ name: 'Custom name ' });
+						// console.log('image after saving', savedImgData);
+					}}
 					loadableDesignState={preset}
 					getCurrentImgDataFnRef={imageRef}
 					updateStateFnRef={imageEditRef}
-					onSave={(editedImageObject, designState) => {
-						FileSaver.saveAs(
-							editedImageObject.imageBase64,
-							editedImageObject.fullName
-						);
-						console.log('saved', editedImageObject, designState);
+					onSave={(imageData, imageDesignState) => {
+						FileSaver.saveAs(imageData.imageBase64, imageData.fullName);
+						console.log('saved', imageData, imageDesignState);
 					}}
 					defaultSavedImageType={imageType}
 					defaultSavedImageName={imageName}

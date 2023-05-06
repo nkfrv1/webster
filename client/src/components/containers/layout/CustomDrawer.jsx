@@ -54,7 +54,7 @@ function CustomDrawer() {
 				imageSrc = reader.result;
 				dispatch(setEditorState(true));
 				dispatch(setImageData({ imageSrc, imageName, imageType }));
-				navigate('/');
+				navigate('/editor');
 			};
 
 			reader.readAsDataURL(files[0]);

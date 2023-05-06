@@ -1,0 +1,115 @@
+.landing-wr {
+    height: 100%;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+
+    .landing-section-first {
+        background-image: url('/nature2.jpg');
+        background-size: cover;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        justify-content: space-around;
+        padding-bottom: 10%;
+
+        .landing-tint {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background: linear-gradient(180deg,
+                    rgba(0, 0, 0, 0.75) 0%,
+                    rgba(0, 0, 0, 0) 16.67%,
+                    rgba(0, 0, 0, 0.07) 80.21%, #352323 100%);
+        }
+
+
+
+        .landing-title-container {
+            width: 760px;
+            display: flex;
+            position: relative;
+            z-index: 3;
+
+            .landing-title {
+                font-family: 'Poppins-Regular';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 90px;
+                line-height: 144px;
+
+                color: #000000;
+
+                text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            }
+        }
+
+        .landing-button {
+            width: 500px;
+            height: 100px;
+            position: relative;
+            z-index: 3;
+
+            &:focus &:focus-visible {
+                border: 1px solid transparent;
+            }
+
+            p {
+                font-family: 'Poppins';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 48px;
+                line-height: 72px;
+                /* identical to box height */
+
+
+                color: #000000;
+            }
+        }
+    }
+
+    .landing-section-second {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        justify-content: space-around;
+        p{
+            font-size: 60px;
+            color: #C7D1D9;
+            font-family: 'Poppins-Regular';
+            position: relative;
+            z-index: 3;
+        }
+        .social-media-stack {
+            position: relative;
+            z-index: 3;
+        }
+        .landing-tint-2 {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background: linear-gradient(180deg, 
+            #352323 0%, 
+            rgba(48, 54, 52, 0.7) 15% , 
+            rgb(45, 51, 48) 50.41%, 
+            #000000 100.09%);
+        }
+    }
+}

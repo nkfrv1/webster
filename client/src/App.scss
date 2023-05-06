@@ -1,8 +1,10 @@
-@import url('./scss/appbar.scss');
+@import './scss/appbar.scss';
+// @import	'./scss/profile.scss';
 @font-face {
-	font-family: 'Poppins';
+	font-family: 'Poppins-Light';
 	src: url('fonts/Poppins/Poppins-ExtraLight.ttf') format('opentype');
-}
+};
+
 $At-the-Daybreak-1-hex: #465059;
 $At-the-Daybreak-2-hex: #C7D1D9;
 $At-the-Daybreak-3-hex: #6D808C;
@@ -32,9 +34,16 @@ $bg-2: rgba(12,12,12, 1);
 }
 * {
 	box-sizing: border-box;
-	font-family: 'Poppins';
+	font-family: 'Poppins-Light';
 	margin: 0;
 	padding: 0;
+	&::-webkit-scrollbar {
+        display: none;
+    }
+
+    
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 .logo {
 	height: 6em;

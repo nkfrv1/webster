@@ -1,15 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import { Box, Toolbar } from '@mui/material';
-import CustomDrawer from './CustomDrawer';
+
 import Header from './Header';
 
 const Layout = () => {
 	return (
-		<Box>
+		<Box sx={{height: '100%', overflow: 'hidden'}}>
 			<Header />
-			<CustomDrawer />
-			<Box component="main" sx={{ flexGrow: 1, m: '0 0 0 179px' }}>
-				<Toolbar />
+			{/* <CustomDrawer /> */}
+			<Box component="main" sx={{ flexGrow: 1, marginTop: '64px', height: 'calc(100% - 64px)'}}>
+				{/* <Toolbar /> */}
 				<Outlet />
 			</Box>
 		</Box>

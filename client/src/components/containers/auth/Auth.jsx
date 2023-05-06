@@ -38,7 +38,7 @@ function Auth() {
         window.addEventListener('hashchange', handleHashChange);
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, []);
-    useEffect(() => { window.location.hash = 'sign-in' }, [])
+
     return (
         <div className="auth-container">
             {

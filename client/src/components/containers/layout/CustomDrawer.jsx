@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import {
 	Box,
@@ -17,20 +17,23 @@ import {
 } from '@mui/material';
 
 import '../../../App.scss';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import UploadFileSharpIcon from '@mui/icons-material/UploadFileSharp';
 import PaidSharpIcon from '@mui/icons-material/PaidSharp';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 
 import {
 	setImageData,
 	setEditorState,
+	selectShowEditor,
 } from '../../../features/image/imageSlice';
+
+import { setPresetsListState } from '../../../features/preset/presetSlice';
 
 const drawerWidth = 180;
 function CustomDrawer() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const isEditorOpen = useSelector(selectShowEditor);
 	let imageSrc = '';
 	let imageName = '';
 	let imageType = '';
@@ -94,6 +97,17 @@ function CustomDrawer() {
 								<UploadFileSharpIcon />
 							</ListItemIcon>
 							<ListItemText primary={'Upload'} />
+						</ListItemButton>
+					</ListItem>
+					<ListItem key="presets" disablePadding>
+						<ListItemButton
+							disabled={!isEditorOpen}
+							onClick={() => dispatch(setPresetsListState(true))}
+						>
+							<ListItemIcon>
+								<SettingsSuggestIcon />
+							</ListItemIcon>
+							<ListItemText primary={'Presets'} />
 						</ListItemButton>
 					</ListItem>
 					<ListItem key="donation" disablePadding>

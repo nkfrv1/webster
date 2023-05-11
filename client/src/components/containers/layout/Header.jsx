@@ -14,17 +14,23 @@ function Header() {
 			sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
 		>
 			<Toolbar sx={{ dipslay: 'flex', justifyContent: 'space-between' }}>
-				<Typography variant="h6" noWrap component="div" sx={{cursor: 'pointer'}} onClick={()=>{navigate('/')}}>
-					Webster the creator
-				</Typography>
+				{/* <Typography variant="h6" noWrap component="div" sx={{cursor: 'pointer'}} onClick={()=>{navigate('/')}}>
+					Dive
+				
+				</Typography> */}
+				<img
+					onClick={() => { navigate('/') }}
+					src='logo/svg/logo-white-transparent.svg'
+					className='logo'>
+				</img>
 				<Box className="appbar-nav-btn">
-					<Box sx={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center'}} onClick={()=>{navigate('/auth#sign-in')}}>
+					<Box sx={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => { navigate('/auth#sign-in') }}>
 						Login
 						<IconButton>
 							<LoginSharp />
 						</IconButton>
 					</Box>
-					<Box sx={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center'}} onClick={()=>{navigate('/auth#sign-up')}}>
+					<Box sx={{ cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => { navigate('/auth#sign-up') }}>
 						Sign Up
 						<IconButton>
 							<LogoutSharp />

@@ -78,7 +78,7 @@ const ImageEditor = () => {
 						fill: '#ff0000',
 					}}
 					theme={styledTheme}
-					Text={{ text: 'Filerobot...' }}
+					Text={{ text: 'ТРУХА' }}
 					Rotate={{ angle: 90, componentType: 'slider' }}
 					Crop={{
 						presetsItems: [

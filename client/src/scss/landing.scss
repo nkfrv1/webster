@@ -10,8 +10,14 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 
+    .landing {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        height: 100%;
+    }
 
-    .landing-section-first {
+    .section-first {
         background-image: url('/nature2.jpg');
         background-size: cover;
         position: relative;
@@ -38,17 +44,19 @@
 
 
         .landing-title-container {
-            width: 760px;
+            width: 900px;
             display: flex;
             position: relative;
+            margin-top: 2rem;
             z-index: 3;
 
             .landing-title {
                 font-family: 'Poppins-Regular';
+                
                 font-style: normal;
                 font-weight: 400;
-                font-size: 90px;
-                line-height: 144px;
+                font-size: 80px;
+                line-height: 118px;
 
                 color: #000000;
 
@@ -59,6 +67,8 @@
         .landing-button {
             width: 500px;
             height: 100px;
+            transform: translateY(60px);
+            opacity: 0;
             position: relative;
             z-index: 3;
 
@@ -80,24 +90,34 @@
         }
     }
 
-    .landing-section-second {
-        display: flex;
-        position: relative;
-        flex-direction: column;
+    .section-second {
         align-items: center;
-        height: 100%;
-        justify-content: space-around;
-        p{
+        justify-content: space-evenly;
+
+        p {
             font-size: 60px;
             color: #C7D1D9;
             font-family: 'Poppins-Regular';
             position: relative;
             z-index: 3;
         }
+
         .social-media-stack {
             position: relative;
+            // scale: 0;
+
             z-index: 3;
+
+            svg {
+                // scale: 1;
+                opacity: 0;
+                height: 140px;
+                width: auto;
+                // transition: opacity 2s cubic-bezier(0.17, 0.55, 0.55, 1) ;
+                transition: scale 8s cubic-bezier(0.17, 0.55, 0.55, 1), opacity 1s cubic-bezier(0.17, 0.55, 0.55, 1);
+            }
         }
+
         .landing-tint-2 {
             height: 100%;
             width: 100%;
@@ -105,11 +125,77 @@
             z-index: 1;
             top: 0;
             left: 0;
-            background: linear-gradient(180deg, 
-            #352323 0%, 
-            rgba(48, 54, 52, 0.7) 15% , 
-            rgb(45, 51, 48) 50.41%, 
-            #000000 100.09%);
+            background: linear-gradient(180deg,
+                    #352323 0%,
+                    rgba(48, 54, 52, 0.7) 15%,
+                    rgb(45, 51, 48) 50.41%,
+                    #242424 100.09%);
         }
+    }
+
+    .section-third {
+        align-items: center;
+        justify-content: space-evenly;
+
+        p {
+            font-size: 60px;
+            color: #C7D1D9;
+            font-family: 'Poppins-Regular';
+            position: relative;
+            z-index: 3;
+            transform: translateY(500px);
+            transition: all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1);
+        }
+
+        .presets-container {
+            display: flex;
+            height: auto;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            // overflow: scroll;
+            background: rgb(224, 216, 216);
+            transition: all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1);
+
+            transform: translateX(100%);
+
+            .presets-slider {
+                display: flex;
+                width: 200%;
+                position: relative;
+                animation: inf_slider 10s linear infinite;
+
+                img {
+                    width: 100%;
+                    opacity: 0;
+                    height: auto;
+                }
+            }
+
+        }
+
+    }
+}
+
+.toTop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border-radius: 50%;
+    bottom: 5%;
+    right: 5%;
+    opacity: 0;
+    transform: translateY(400px);
+    z-index: 999;
+}
+
+@keyframes inf_slider {
+    0% {
+        left: 0%;
+    }
+
+    100% {
+        left: -100%;
     }
 }

@@ -46,16 +46,17 @@ $bg-2: rgba(12,12,12, 1);
     scrollbar-width: none;
 }
 .logo {
-	height: 6em;
-	padding: 1.5em;
+	height: 64px;
+	cursor: pointer;
+	padding: 1.2em;
 	will-change: filter;
 	transition: filter 300ms;
 }
 .logo:hover {
-	filter: drop-shadow(0 0 2em #646cffaa);
+	filter: drop-shadow(0 0 0.5em #96969caa);
 }
 .logo.react:hover {
-	filter: drop-shadow(0 0 2em #61dafbaa);
+	filter: drop-shadow(0 0 0.5em #c7c0c0aa);
 }
 
 @keyframes logo-spin {

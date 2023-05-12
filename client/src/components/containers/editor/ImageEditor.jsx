@@ -5,6 +5,7 @@ import FilerobotImageEditor, {
 	TABS,
 	TOOLS,
 } from 'react-filerobot-image-editor';
+
 import {
 	selectImageName,
 	selectImageType,
@@ -12,12 +13,12 @@ import {
 	selectShowEditor,
 	setEditorState,
 } from '../../../features/image/imageSlice';
+import { selectPreset } from '../../../features/preset/presetSlice';
 
 import CustomDrawer from '../layout/CustomDrawer';
 import PresetsList from './PresetsList';
 
 import '../../../scss/editor.scss';
-import { selectPreset } from '../../../features/preset/presetSlice';
 const styledTheme = {
 	palette: {
 		'bg-secondary': 'rgba(69,80,89, 1)',

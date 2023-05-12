@@ -1,5 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback, } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Konva from 'konva';
+import { Image } from 'react-konva';
+import FilerobotImageEditor, {
+	TABS,
+	TOOLS,
+} from 'react-filerobot-image-editor';
+
 import {
 	Drawer,
 	Button,
@@ -8,7 +15,9 @@ import {
 	ListItemIcon,
 	ListItemText,
 	ListItemButton,
+	ListItemAvatar,
 	Toolbar,
+	Avatar
 } from '@mui/material';
 
 import {
@@ -17,10 +26,37 @@ import {
 	setPreset,
 } from '../../../features/preset/presetSlice';
 
+import { selectImageSrc, selectImageName } from '../../../features/image/imageSlice'
+
 function PresetsList() {
 	const dispatch = useDispatch();
 	const open = useSelector(selectPresetsListState);
+	const image = useSelector(selectImageSrc);
+	const imageName = useSelector(selectImageName);
+	const imageRef = useRef();
+	const [imageProps, setImageProps] = useState({
+		filter: 'Sepia',
+		finetunes: ['Brighten'],
+		finetunesProps: { brightness: 0.55 },
+	});
 
+	const cacheImageNode = useCallback(() => {
+		if (imageRef.current) {
+			imageRef.current.cache();
+		} else {
+		  setTimeout(cacheImageNode, 0);
+		}
+	  }, []);
+	
+	  useEffect(() => {
+		if (image) {
+		  cacheImageNode();
+		}
+	
+		return () => {
+			imageRef.current?.clearCache();
+		};
+	  }, [image]);
 	const toggleDrawer = (open) => (event) => {
 		if (
 			event.type === 'keydown' &&
@@ -88,7 +124,7 @@ function PresetsList() {
 	};
 
 	const list = (
-		<List sx={{ width: '100%', minWidth: 350 }}>
+		<List sx={{ width: '100%', minWidth: 350, display: 'flex', gap: '30px', flexDirection: 'column' }}>
 			<ListItem
 				secondaryAction={
 					<Button onClick={applyPresetA} variant="contained" color="success">
@@ -96,6 +132,19 @@ function PresetsList() {
 					</Button>
 				}
 			>
+				<ListItemAvatar>
+					<Image
+						ref={imageRef}
+						image={image}
+						width={'50px'}
+						height={'50px'}
+					/>
+					{/* <Avatar
+						variant="square"
+						alt={imageName}
+						src={image}
+					/> */}
+				</ListItemAvatar>
 				<ListItemText primary="Bright Moon" />
 			</ListItem>
 			<ListItem
@@ -105,6 +154,13 @@ function PresetsList() {
 					</Button>
 				}
 			>
+				<ListItemAvatar>
+					<Image
+						image={"https://picsum.photos/id/237/200/300"}
+						filters={[Konva.Filters[imageProps.filter]]}
+						{...imageProps.finetunesProps}
+					/>
+				</ListItemAvatar>
 				<ListItemText primary="Bright Sepia" />
 			</ListItem>
 			<ListItem

@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router';
-
+import { GoogleLogin } from '@react-oauth/google';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -41,7 +41,6 @@ export default function SignIn({ onSignIn, error, errorMessage }) {
   }
   
   const navigate = useNavigate()
-  console.log(error + ' : ' + errorMessage)
   
   return (
     <ThemeProvider theme={theme}>
@@ -93,6 +92,16 @@ export default function SignIn({ onSignIn, error, errorMessage }) {
             >
               Sign In
             </Button>
+            <GoogleLogin
+              onSuccess={credentialResponse => {
+                console.log(credentialResponse.credential);
+              }}
+
+              onError={() => {
+                console.log('Login Failed');
+              }}
+
+            />
             <Grid container>
               <Grid item xs>
                 <Link  variant="body2" onClick={() => {navigate('reset-password')}}>

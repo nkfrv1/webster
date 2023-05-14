@@ -29,12 +29,18 @@ export class UsersService {
     }
 
     async update(id: string, updateUserDto: UpdateUserDto) {
-        return this.userModel.findByIdAndUpdate(id, updateUserDto, {
-            new: true,
-        });
+        const target = await this.userModel.findById(id);
+        if (!target) {
+            throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+        }
+        return target.set(updateUserDto).save();
     }
 
     async remove(id: string) {
-        return this.userModel.findByIdAndRemove(id);
+        const target = await this.userModel.findById(id);
+        if (!target) {
+            throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+        }
+        return target.deleteOne();
     }
 }

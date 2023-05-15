@@ -39,6 +39,7 @@ function Landing() {
   useEffect(() => {
     const sequence = [
       ['.text-s3', { transform: "translateY(0)", opacity: invText2 ? 1 : 0 }, { duration: 0.7 }],
+      ['.btn-test-it-wr', {opacity: invText2 ? 1 : 0 }, { duration: 0.7 }],
       ['.presets-container', { transform: "translateX(0)" }, { duration: 1 }],
       ['.presets-slider img', { opacity: 1 }, { duration: 1 }],
     ]
@@ -79,6 +80,9 @@ function Landing() {
             <img src={'kira_carousel.png'} id="carousel-img-1" />
             <img src={'kira_carousel.png'} id="carousel-img-2" />
           </Box>
+        </Box>
+        <Box className="btn-test-it-wr" >
+          <Button ref={refText2} className="btn-test-it" onClick={()=>{navigate('/editor')}}>Test it yourself</Button>
         </Box>
 
       </Box>

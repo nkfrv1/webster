@@ -52,7 +52,6 @@
 
             .landing-title {
                 font-family: 'Poppins-Regular';
-                
                 font-style: normal;
                 font-weight: 400;
                 font-size: 80px;
@@ -172,6 +171,28 @@
                 }
             }
 
+        }
+
+        .btn-test-it-wr {
+            width: 180px;
+            height: 40px;
+            position: relative;
+            scale: 1.8;
+            opacity: 0;
+            .btn-test-it {
+                border: 1px solid transparent;
+                background: white;
+                transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                color: black;
+                position: absolute;
+                width: 100%;
+                height: 40px;
+                top: 0;
+                left: 0;
+                &:hover {
+                    background-color: antiquewhite;
+                }
+            }
         }
 
     }

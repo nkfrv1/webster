@@ -38,8 +38,8 @@ const ImageEditor = () => {
 	const imageSrc = useSelector(selectImageSrc);
 	const imageName = useSelector(selectImageName);
 	const imageType = useSelector(selectImageType);
-	// const imageRef = {};
 	const preset = useSelector(selectPreset);
+	// const imageRef = {};
 
 	// const showData = () => {
 	// 	const { designState } = imageRef.current();
@@ -61,11 +61,6 @@ const ImageEditor = () => {
 						console.log(imageFileInfo);
 						imageFileInfo.quality = 1;
 					}}
-					// onModify={(currentDesignState) => {
-					// 	console.log('current design state', currentDesignState);
-					// 	const savedImgData = saveFnRef.current({ name: 'Custom name ' });
-					// 	console.log('image after saving', savedImgData);
-					// }}
 					loadableDesignState={preset}
 					// getCurrentImgDataFnRef={imageRef}
 					onSave={(imageData, imageDesignState) => {
@@ -234,9 +229,6 @@ const ImageEditor = () => {
 							},
 						],
 					}}
-					// tabsIds={[TABS.ADJUST, TABS.ANNOTATE, TABS.WATERMARK]} // or {['Adjust', 'Annotate', 'Watermark']}
-					// defaultTabId={TABS.ANNOTATE} // or 'Annotate'
-					// defaultToolId={TOOLS.TEXT} // or 'Text'
 				/>
 			)}
 		</div>

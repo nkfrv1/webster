@@ -1,62 +1,60 @@
-import { useState, useEffect, useRef, useCallback, } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Konva from 'konva';
-import { Image } from 'react-konva';
-import FilerobotImageEditor, {
-	TABS,
-	TOOLS,
-} from 'react-filerobot-image-editor';
+import FilerobotImageEditor from 'react-filerobot-image-editor';
 
 import {
 	Drawer,
 	Button,
 	List,
 	ListItem,
-	ListItemIcon,
 	ListItemText,
-	ListItemButton,
 	ListItemAvatar,
 	Toolbar,
-	Avatar
 } from '@mui/material';
 
 import {
+	setPreset,
 	setPresetsListState,
 	selectPresetsListState,
-	setPreset,
 } from '../../../features/preset/presetSlice';
 
-import { selectImageSrc, selectImageName } from '../../../features/image/imageSlice'
+import { selectImageSrc } from '../../../features/image/imageSlice';
+
+import '../../../scss/editor.scss';
 
 function PresetsList() {
 	const dispatch = useDispatch();
 	const open = useSelector(selectPresetsListState);
-	const image = useSelector(selectImageSrc);
-	const imageName = useSelector(selectImageName);
-	const imageRef = useRef();
-	const [imageProps, setImageProps] = useState({
+	const imageUrl = useSelector(selectImageSrc);
+	const [preset1, setPreset1] = useState({
+		filter: 'Moon',
+		finetunes: ['Brighten'],
+		finetunesProps: { brightness: 0.1 },
+	});
+	const [preset2, setPreset2] = useState({
 		filter: 'Sepia',
 		finetunes: ['Brighten'],
 		finetunesProps: { brightness: 0.55 },
 	});
+	const [preset3, setPreset3] = useState({
+		adjustments: {
+			crop: {
+				isFlippedX: false,
+				isFlippedY: false,
+				ratio: 0.84211,
+				ratioFolderKey: 'socialMedia',
+				ratioGroupKey: 'twitter',
+				ratioTitleKey: 'profilePhoto',
+				rotation: 0,
+			},
+		},
+		annotations: {},
+		filter: 'Sepia',
+		finetunes: ['Brighten'],
+		finetunesProps: { brightness: 0 },
+		resize: { ratioUnlocked: true, manualChangeDisabled: false },
+	});
 
-	const cacheImageNode = useCallback(() => {
-		if (imageRef.current) {
-			imageRef.current.cache();
-		} else {
-		  setTimeout(cacheImageNode, 0);
-		}
-	  }, []);
-	
-	  useEffect(() => {
-		if (image) {
-		  cacheImageNode();
-		}
-	
-		return () => {
-			imageRef.current?.clearCache();
-		};
-	  }, [image]);
 	const toggleDrawer = (open) => (event) => {
 		if (
 			event.type === 'keydown' &&
@@ -70,19 +68,6 @@ function PresetsList() {
 	const applyPresetA = () => {
 		dispatch(
 			setPreset({
-				// adjustments: {
-				// 	crop: {
-				// 		height: null,
-				// 		ratio: 'original',
-				// 		ratioTitleKey: 'original',
-				// 		width: null,
-				// 		x: 0,
-				// 		y: 0,
-				// 	},
-				// 	isFlippedX: false,
-				// 	isFlippedY: false,
-				// 	rotation: 0,
-				// },
 				filter: 'Moon',
 				finetunes: ['Brighten'],
 				finetunesProps: { brightness: 0.1 },
@@ -124,53 +109,59 @@ function PresetsList() {
 	};
 
 	const list = (
-		<List sx={{ width: '100%', minWidth: 350, display: 'flex', gap: '30px', flexDirection: 'column' }}>
-			<ListItem
-				secondaryAction={
-					<Button onClick={applyPresetA} variant="contained" color="success">
-						Apply
-					</Button>
-				}
-			>
+		<List className="preset_list-wr">
+			<ListItem>
 				<ListItemAvatar>
-					<Image
-						ref={imageRef}
-						image={image}
-						width={'50px'}
-						height={'50px'}
-					/>
-					{/* <Avatar
-						variant="square"
-						alt={imageName}
-						src={image}
-					/> */}
+					<div className="preview_image-wr">
+						<FilerobotImageEditor
+							source={imageUrl}
+							loadableDesignState={preset1}
+							showCanvasOnly={true}
+							disableZooming={true}
+							defaultToolId=""
+						/>
+					</div>
 				</ListItemAvatar>
 				<ListItemText primary="Bright Moon" />
+				<Button onClick={applyPresetA} variant="contained" color="success">
+					Apply
+				</Button>
 			</ListItem>
-			<ListItem
-				secondaryAction={
-					<Button onClick={applyPresetB} variant="contained" color="success">
-						Apply
-					</Button>
-				}
-			>
+
+			<ListItem>
 				<ListItemAvatar>
-					<Image
-						image={"https://picsum.photos/id/237/200/300"}
-						filters={[Konva.Filters[imageProps.filter]]}
-						{...imageProps.finetunesProps}
-					/>
+					<div className="preview_image-wr">
+						<FilerobotImageEditor
+							source={imageUrl}
+							loadableDesignState={preset2}
+							showCanvasOnly={true}
+							disableZooming={true}
+							defaultToolId=""
+						/>
+					</div>
 				</ListItemAvatar>
 				<ListItemText primary="Bright Sepia" />
+				<Button onClick={applyPresetB} variant="contained" color="success">
+					Apply
+				</Button>
 			</ListItem>
-			<ListItem
-				secondaryAction={
-					<Button onClick={applyPresetC} variant="contained" color="success">
-						Apply
-					</Button>
-				}
-			>
+
+			<ListItem>
+				<ListItemAvatar>
+					<div className="preview_image-wr">
+						<FilerobotImageEditor
+							source={imageUrl}
+							loadableDesignState={preset3}
+							showCanvasOnly={true}
+							disableZooming={true}
+							defaultToolId=""
+						/>
+					</div>
+				</ListItemAvatar>
 				<ListItemText primary="Sepia with Crop for Twitter" />
+				<Button onClick={applyPresetC} variant="contained" color="success">
+					Apply
+				</Button>
 			</ListItem>
 		</List>
 	);

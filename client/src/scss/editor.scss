@@ -7,6 +7,20 @@ $bg-2: rgba(12, 12, 12, 1);
 .editor-wr {
 	background-color: $bg-1 !important;
 	margin-left: 179px;
+
+	.btn-add-photo-wr {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.btn-add-photo {
+			svg {
+				height: 300px;
+				width: 300px;
+			}
+		}
+	}
 }
 
 .FIE_tabs {
@@ -28,8 +42,8 @@ $bg-2: rgba(12, 12, 12, 1);
 			//   flex-direction: column !important;
 		}
 	}
-	.FIE_canvas-container {
-	}
+
+	.FIE_canvas-container {}
 
 	.FIE_filters-wrapper {
 		//   background-color: red;
@@ -70,7 +84,8 @@ $bg-2: rgba(12, 12, 12, 1);
 	display: flex;
 	gap: 30px;
 	flex-flow: column wrap;
-	> li {
+
+	>li {
 		gap: 10px;
 	}
 }

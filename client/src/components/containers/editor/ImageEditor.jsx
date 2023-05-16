@@ -5,13 +5,16 @@ import FilerobotImageEditor, {
 	TABS,
 	TOOLS,
 } from 'react-filerobot-image-editor';
-
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import { Button, TextField, IconButton } from '@mui/material';
+import SocialMediaCrops from '../../../app/editorCrops'
 import {
 	selectImageName,
 	selectImageType,
 	selectImageSrc,
 	selectShowEditor,
 	setEditorState,
+	setImageData,
 } from '../../../features/image/imageSlice';
 import { selectPreset } from '../../../features/preset/presetSlice';
 
@@ -39,13 +42,54 @@ const ImageEditor = () => {
 	const imageName = useSelector(selectImageName);
 	const imageType = useSelector(selectImageType);
 	const preset = useSelector(selectPreset);
-	// const imageRef = {};
+	let imageSrcNew = '';
+	let imageNameNew = '';
+	let imageTypeNew = '';
+	function handleDropFile(event) {
+		event.preventDefault();
+		if (event.dataTransfer.items[0].kind === "file") {
+			const file = event.dataTransfer.items[0].getAsFile();
+			imageNameNew = file.name.split('.')[0];
+			imageTypeNew = file.type.split('/')[1];
+			dispatch(setEditorState(false));
+			const reader = new FileReader();
 
-	// const showData = () => {
-	// 	const { designState } = imageRef.current();
-	// 	console.log(designState);
-	// };
+			reader.onload = () => {
+				imageSrcNew = reader.result;
+				dispatchEvent(imageSrcNew, imageNameNew, imageTypeNew)
+			};
 
+			reader.readAsDataURL(file);
+		}
+	}
+	function dragOverHandler(event) {
+		event.preventDefault();
+	}
+	function dispatchEvent(imageSrc, imageName, imageType) {
+		dispatch(setImageData({ imageSrc, imageName, imageType }))
+		dispatch(setEditorState(true))
+	}
+	function handleFile(ev) {
+		ev.preventDefault();
+		let input = document.createElement('input');
+		input.type = 'file';
+
+		input.onchange = () => {
+			const files = Array.from(input.files);
+			imageNameNew = files[0].name.split('.')[0];
+			imageTypeNew = files[0].type.split('/')[1];
+			dispatch(setEditorState(false));
+			const reader = new FileReader();
+
+			reader.onload = () => {
+				imageSrcNew = reader.result;
+				dispatchEvent(imageSrcNew, imageNameNew, imageTypeNew)
+			};
+
+			reader.readAsDataURL(files[0]);
+		};
+		input.click();
+	};
 	return (
 		<div
 			style={{ width: 'calc(100%-179px)', height: 'calc(100vh - 64px)' }}
@@ -54,7 +98,7 @@ const ImageEditor = () => {
 			<CustomDrawer />
 			<PresetsList />
 			{/* <button onClick={showData}>show</button> */}
-			{showEditor && (
+			{showEditor ? (
 				<FilerobotImageEditor
 					source={imageSrc}
 					onBeforeSave={(imageFileInfo) => {
@@ -74,7 +118,7 @@ const ImageEditor = () => {
 						fill: '#ff0000',
 					}}
 					theme={styledTheme}
-					Text={{ text: 'ТРУХА' }}
+					Text={{ text: 'ТРУХА⚡' }}
 					Rotate={{ angle: 90, componentType: 'slider' }}
 					Crop={{
 						presetsItems: [
@@ -92,145 +136,20 @@ const ImageEditor = () => {
 							},
 						],
 						presetsFolders: [
-							{
-								titleKey: 'socialMedia', // will be translated into Social Media as backend contains this translation key
-								// icon: <Groups3SharpIcon />, // React component, string or HTML Element
-								groups: [
-									{
-										titleKey: 'linkedIn',
-										items: [
-											{
-												titleKey: 'profilePhoto',
-												width: 400,
-												height: 400,
-												descriptionKey: 'liProfilePhotoSize',
-												disableManualResize: false,
-											},
-											{
-												titleKey: 'profileCoverPhoto',
-												width: 1584,
-												height: 396,
-												descriptionKey: 'liProfileCoverPhotoSize',
-											},
-											{
-												titleKey: 'blogPostPhoto',
-												width: 1200,
-												height: 627,
-												descriptionKey: 'liBlogPostPhotoSize',
-											},
-											{
-												titleKey: 'companyLogo',
-												width: 300,
-												height: 300,
-												descriptionKey: 'liCompanyLogoSize',
-											},
-											{
-												titleKey: 'companyPageCover',
-												width: 1128,
-												height: 191,
-												descriptionKey: 'liCompanyPageCoverSize',
-											},
-										],
-									},
-									{
-										titleKey: 'twitter',
-										items: [
-											{
-												titleKey: 'profilePhoto',
-												width: 400,
-												height: 400,
-												descriptionKey: 'twProfilePhotoSize',
-											},
-											{
-												titleKey: 'headerPhoto',
-												width: 1500,
-												height: 500,
-												descriptionKey: 'twHeaderPhotoSize',
-											},
-											{
-												titleKey: 'inStreamPhoto',
-												width: 1600,
-												height: 1900,
-												descriptionKey: 'twInStreamPhotoSize',
-											},
-										],
-									},
-									{
-										titleKey: 'instagram',
-										items: [
-											{
-												titleKey: 'profilePhoto',
-												width: 320,
-												height: 320,
-												descriptionKey: 'igProfilePhotoSize',
-											},
-											{
-												titleKey: 'feedPortraitPhoto',
-												width: 1080,
-												height: 1350,
-												descriptionKey: 'igFeedPortraitPhotoSize',
-											},
-											{
-												titleKey: 'feedLandscapePhoto',
-												width: 1080,
-												height: 566,
-												descriptionKey: 'igFeedLandscapePhotoSize',
-											},
-											{
-												titleKey: 'feedSquarePhoto',
-												width: 1080,
-												height: 1080,
-												descriptionKey: 'igFeedSquarePhotoSize',
-											},
-											{
-												titleKey: 'storyPhoto',
-												width: 1080,
-												height: 1920,
-												descriptionKey: 'igStoryPhotoSize',
-											},
-										],
-									},
-									{
-										titleKey: 'facebook',
-										items: [
-											{
-												titleKey: 'profilePhoto',
-												width: 170,
-												height: 170,
-												descriptionKey: 'fbProfilePhotoSize',
-											},
-											{
-												titleKey: 'profileCoverPhoto',
-												width: 851,
-												height: 315,
-												descriptionKey: 'fbProfileCoverPhotoSize',
-											},
-											{
-												titleKey: 'eventCoverPhoto',
-												width: 1200,
-												height: 628,
-												descriptionKey: 'fbEventCoverPhotoSize',
-											},
-											{
-												titleKey: 'timelinePhoto',
-												width: 1200,
-												height: 630,
-												descriptionKey: 'fbTimelinePhotoSize',
-											},
-											{
-												titleKey: 'storyPhoto',
-												width: 1080,
-												height: 1920,
-												descriptionKey: 'fbStoryPhotoSize',
-											},
-										],
-									},
-								],
-							},
+							SocialMediaCrops
 						],
 					}}
 				/>
-			)}
+			) :
+				<div 
+					className="btn-add-photo-wr" 
+					onDrop={(event) => {handleDropFile(event)}}
+					onDragOver={(event) => {dragOverHandler(event)}}>
+					<IconButton onClick={handleFile} className='btn-add-photo'>
+						<ControlPointIcon />
+					</IconButton>
+				</div>
+			}
 		</div>
 	);
 };

@@ -110,7 +110,7 @@ function CustomDrawer() {
 							<ListItemText primary={'Presets'} />
 						</ListItemButton>
 					</ListItem>
-					<ListItem key="donation" disablePadding>
+					{/* <ListItem key="donation" disablePadding>
 						<ListItemButton
 							onClick={(e) => {
 								alert('You got fooled :)');
@@ -121,7 +121,7 @@ function CustomDrawer() {
 							</ListItemIcon>
 							<ListItemText primary={'Donation'} />
 						</ListItemButton>
-					</ListItem>
+					</ListItem> */}
 				</List>
 				<Divider />
 			</Box>

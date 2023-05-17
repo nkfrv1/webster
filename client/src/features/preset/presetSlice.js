@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const presetSlice = createSlice({
 	name: 'preset',
 	initialState: {
-		preset: {},
+		preset: '',
 		presetsListState: false,
 	},
 	reducers: {

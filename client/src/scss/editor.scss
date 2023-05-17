@@ -43,7 +43,8 @@ $bg-2: rgba(12, 12, 12, 1);
 		}
 	}
 
-	.FIE_canvas-container {}
+	.FIE_canvas-container {
+	}
 
 	.FIE_filters-wrapper {
 		//   background-color: red;
@@ -78,6 +79,12 @@ $bg-2: rgba(12, 12, 12, 1);
 //   }
 // }
 
+.presets_drawer {
+	.MuiBackdrop-root {
+		background: none !important;
+	}
+}
+
 .preset_list-wr {
 	width: 100%;
 	min-width: 350;
@@ -85,7 +92,7 @@ $bg-2: rgba(12, 12, 12, 1);
 	gap: 30px;
 	flex-flow: column wrap;
 
-	>li {
+	> li {
 		gap: 10px;
 	}
 }

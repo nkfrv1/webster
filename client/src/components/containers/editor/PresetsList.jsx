@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import FilerobotImageEditor from 'react-filerobot-image-editor';
-
+import { Stage, Layer, Image, Rect } from 'react-konva';
 import {
 	Drawer,
 	Button,
@@ -44,6 +44,18 @@ function PresetsList() {
 				filter: 'Sepia',
 				finetunes: ['Brighten'],
 				finetunesProps: { brightness: 0.55 },
+			},
+		},
+		{
+			title: 'Black&White',
+			opts: {
+				filter: 'BlackAndWhite',
+			},
+		},
+		{
+			title: 'Orignal',
+			opts: {
+				filter: null,
 			},
 		},
 
@@ -98,6 +110,7 @@ function PresetsList() {
 								disableZooming={true}
 								defaultToolId=""
 							/>
+							
 						</div>
 					</ListItemAvatar>
 					<ListItemText primary={preset.title} />

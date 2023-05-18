@@ -20,7 +20,7 @@ function Landing() {
   const [scope, animate] = useAnimate()
   const navigate = useNavigate()
   useEffect(() => {
-    const duration = 0.35;
+    const duration = 0.24;
     const sequence = [
       ['.fac', { scale: invicons ? 1 : 0, opacity: invicons ? 1 : 0 }, { duration }],
       ['.ins', { scale: invicons ? 1 : 0, opacity: invicons ? 1 : 0 }, { duration, delay: 0.02 }],
@@ -39,9 +39,9 @@ function Landing() {
   useEffect(() => {
     const sequence = [
       ['.text-s3', { transform: "translateY(0)", opacity: invText2 ? 1 : 0 }, { duration: 0.7 }],
+      ['.presets-container', { transform: "translateX(0)" }, { duration: 0.6 }],
+      ['.presets-slider img', { opacity: 1 }, { duration: 0.6 }],
       ['.btn-test-it-wr', {opacity: invText2 ? 1 : 0 }, { duration: 0.7 }],
-      ['.presets-container', { transform: "translateX(0)" }, { duration: 1 }],
-      ['.presets-slider img', { opacity: 1 }, { duration: 1 }],
     ]
     invText2 ? animate(sequence) : ''
   }, [invText2])

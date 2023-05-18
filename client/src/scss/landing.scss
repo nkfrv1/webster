@@ -163,6 +163,8 @@
                 width: 200%;
                 position: relative;
                 animation: inf_slider 10s linear infinite;
+                user-select: none;
+                pointer-events: none;
 
                 img {
                     width: 100%;

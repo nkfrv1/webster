@@ -1,6 +1,6 @@
 .landing-wr {
     height: 100%;
-
+    width: 100vw;
     &::-webkit-scrollbar {
         display: none;
     }
@@ -15,6 +15,7 @@
         position: relative;
         flex-direction: column;
         height: 100%;
+        width: 100vw;
     }
 
     .section-first {

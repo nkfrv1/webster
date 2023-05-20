@@ -49,12 +49,12 @@ function Landing() {
   }, [invText2])
   useEffect(() => {
     const sequence = [
-      ['.social-rectangle', { width: '30%', height: '60%' }, { duration: 4 }],
-      ['.social-rectangle', { width: '80%', height: '40%' }, { duration: 4 }],
-      ['.social-rectangle', { width: '20%', height: '80%' }, { duration: 4 }],
-      ['.social-rectangle', { width: '40%', height: '70%' }, { duration: 4 }],
-      ['.social-rectangle', { width: '30%', height: '80%' }, { duration: 4 }],
-      ['.social-rectangle', { width: '50%', height: '50%' }, { duration: 4 }]
+      ['.social-rectangle', { width: '30%', height: '60%', opacity: 1 }, { duration: 4, direction: 'reverse' }],
+      ['.social-rectangle', { width: '80%', height: '40%' }, { duration: 4, direction: 'reverse' }],
+      ['.social-rectangle', { width: '20%', height: '80%' }, { duration: 4, direction: 'reverse' }],
+      ['.social-rectangle', { width: '40%', height: '70%' }, { duration: 4, direction: 'reverse' }],
+      ['.social-rectangle', { width: '30%', height: '80%' }, { duration: 4, direction: 'reverse' }],
+      ['.social-rectangle', { width: '50%', height: '50%' }, { duration: 4, direction: 'reverse' }]
     ];
     animate(sequence, { repeat: Infinity, repeatType: 'reverse' });
   }, [invDashed])
@@ -81,7 +81,7 @@ function Landing() {
         </Box>
         <Box className="social-section">
 
-          <Box ref={refDashed} className="social-rectangle">
+          <Box ref={refDashed} className='social-media-stack'>
             <Facebook color="primary" className='svg-class fac' />
             <Instagram color="primary" className='svg-class ins' />
             <Telegram color="primary" className='svg-class tel' />
@@ -90,6 +90,7 @@ function Landing() {
             {/* <Stack ref={refIcons} className='social-media-stack' direction='row' >
           </Stack> */}
           </Box>
+          <Box className="social-rectangle"></Box>
         </Box>
         <Box className="landing-tint-2" />
       </Box>

@@ -91,29 +91,49 @@
 
     .section-second {
         align-items: center;
-        justify-content: space-evenly;
+        // justify-content: space-evenly;
 
-        p {
-            font-size: 60px;
-            color: #C7D1D9;
-            font-family: 'Poppins-Regular';
-            position: relative;
-            z-index: 3;
+        .text-container {
+            height: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                font-size: 60px;
+                color: #C7D1D9;
+                font-family: 'Poppins-Regular';
+                position: relative;
+                z-index: 3;
+            }
         }
 
-        .social-media-stack {
-            position: relative;
-            // scale: 0;
+        .social-section {
+            height: 50%;
+            width: 100%;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .social-rectangle {
+                border: 6px dashed #fff;
+                border-radius: 10px;
+                height: 30%;
+                width: 60%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
 
-            z-index: 3;
+                svg {
+                    // scale: 1;
+                    opacity: 0;
+                    height: 140px;
+                    width: auto;
+                    transition: scale 8s cubic-bezier(0.17, 0.55, 0.55, 1), opacity 1s cubic-bezier(0.17, 0.55, 0.55, 1);
 
-            svg {
-                // scale: 1;
-                opacity: 0;
-                height: 140px;
-                width: auto;
-                // transition: opacity 2s cubic-bezier(0.17, 0.55, 0.55, 1) ;
-                transition: scale 8s cubic-bezier(0.17, 0.55, 0.55, 1), opacity 1s cubic-bezier(0.17, 0.55, 0.55, 1);
+                    .social-media-stack {}
+                }
             }
         }
 
@@ -181,6 +201,7 @@
             position: relative;
             scale: 1.8;
             opacity: 0;
+
             .btn-test-it {
                 border: 1px solid transparent;
                 background: white;
@@ -191,6 +212,7 @@
                 height: 40px;
                 top: 0;
                 left: 0;
+
                 &:hover {
                     background-color: antiquewhite;
                 }

@@ -121,6 +121,8 @@
             position: relative;
             .social-rectangle {
                 backdrop-filter: sepia(0.7);
+                max-width: 900px;
+                max-height: 800px;
                 border: 6px dashed #fff;
                 border-radius: 10px;
                 height: 200px;

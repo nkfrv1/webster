@@ -50,10 +50,10 @@ function Landing() {
   useEffect(() => {
     const sequence = [
       ['.social-rectangle', { width: '30%', height: '60%' }, { duration: 4 }],
-      ['.social-rectangle', { width: '80%', height: '20%' }, { duration: 4 }],
+      ['.social-rectangle', { width: '80%', height: '40%' }, { duration: 4 }],
       ['.social-rectangle', { width: '20%', height: '80%' }, { duration: 4 }],
-      ['.social-rectangle', { width: '80%', height: '20%' }, { duration: 4 }],
-      ['.social-rectangle', { width: '30%', height: '60%' }, { duration: 4 }],
+      ['.social-rectangle', { width: '40%', height: '70%' }, { duration: 4 }],
+      ['.social-rectangle', { width: '30%', height: '80%' }, { duration: 4 }],
       ['.social-rectangle', { width: '50%', height: '50%' }, { duration: 4 }]
     ];
     animate(sequence, { repeat: Infinity, repeatType: 'reverse' });

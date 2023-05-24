@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import {
@@ -28,12 +29,14 @@ import {
 } from '../../../features/image/imageSlice';
 
 import { setPresetsListState } from '../../../features/preset/presetSlice';
+import ShareModal from './ShareModal';
 
 const drawerWidth = 180;
 function CustomDrawer() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isEditorOpen = useSelector(selectShowEditor);
+	const [openShare, setOpenShare] = useState(false);
 	let imageSrc = '';
 	let imageName = '';
 	let imageType = '';
@@ -65,6 +68,10 @@ function CustomDrawer() {
 		input.click();
 	};
 
+	const handleClose = () => {
+		setOpenShare(false);
+	};
+
 	return (
 		<Drawer
 			className="drawer-wr"
@@ -79,6 +86,7 @@ function CustomDrawer() {
 			}}
 		>
 			<Toolbar />
+			<ShareModal open={openShare} handleClose={handleClose} />
 			<Box sx={{ overflow: 'auto' }}>
 				<List>
 					{/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
@@ -124,6 +132,17 @@ function CustomDrawer() {
 					</ListItem> */}
 				</List>
 				<Divider />
+				<ListItem key="share" disablePadding>
+					<ListItemButton
+						disabled={!isEditorOpen}
+						onClick={() => setOpenShare(true)}
+					>
+						<ListItemIcon>
+							<SettingsSuggestIcon />
+						</ListItemIcon>
+						<ListItemText primary={'Share'} />
+					</ListItemButton>
+				</ListItem>
 			</Box>
 		</Drawer>
 	);

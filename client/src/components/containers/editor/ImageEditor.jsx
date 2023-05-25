@@ -12,14 +12,19 @@ import SocialMediaCrops from '../../../app/editorCrops';
 import { Button, TextField, IconButton } from '@mui/material';
 
 import {
+	setImageData,
+	setEditorState,
+	setShareImage,
+	selectImageSrc,
 	selectImageName,
 	selectImageType,
-	selectImageSrc,
 	selectShowEditor,
-	setEditorState,
-	setImageData,
+	selectShareImage,
 } from '../../../features/image/imageSlice';
-import { selectPreset, setPresetsListState } from '../../../features/preset/presetSlice';
+import {
+	selectPreset,
+	setPresetsListState,
+} from '../../../features/preset/presetSlice';
 
 import CustomDrawer from '../layout/CustomDrawer';
 import PresetsList from './PresetsList';
@@ -37,21 +42,22 @@ const styledTheme = {
 		'accent-primary-active': 'rgba(231, 235, 238, 1)',
 		'icons-secondary': 'rgb(231, 235, 238)',
 		'icons-primary': 'rgb(231, 235, 238)',
-
 	},
 };
 
 const ImageEditor = () => {
 	const dispatch = useDispatch();
-	const showEditor = useSelector(selectShowEditor);
 	const imageSrc = useSelector(selectImageSrc);
 	const imageName = useSelector(selectImageName);
 	const imageType = useSelector(selectImageType);
+	const showEditor = useSelector(selectShowEditor);
+	const shareImage = useSelector(selectShareImage);
 	const preset = useSelector(selectPreset);
 	const [tabAdded, setTabAdded] = useState(false);
 	let imageSrcNew = '';
 	let imageNameNew = '';
 	let imageTypeNew = '';
+	const imageRef = {};
 
 	function handleDropFile(event) {
 		event.preventDefault();
@@ -103,8 +109,11 @@ const ImageEditor = () => {
 	}
 
 	const addTab = () => {
-		let tabSvg = document.createElementNS( 'http://www.w3.org/2000/svg', 'svg');
-		let iconPath = document.createElementNS( 'http://www.w3.org/2000/svg', 'path');
+		let tabSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		let iconPath = document.createElementNS(
+			'http://www.w3.org/2000/svg',
+			'path'
+		);
 		tabSvg.setAttribute('width', '14');
 		tabSvg.setAttribute('height', '14');
 		tabSvg.setAttribute('viewBox', '0 0 50 50');
@@ -115,53 +124,92 @@ const ImageEditor = () => {
 			'M 37.4315 14.1685 L 32.25 11.825 l 5.1815 -2.3435 L 39.775 4.3 l 2.3435 5.1815 L 47.3 11.825 l -5.1815 2.3435 L 39.775 19.35 l -2.3435 -5.1815 z m 8.3205 13.1795 L 44.075 23.65 l -1.677 3.698 l -3.698 1.677 l 3.698 1.677 l 1.677 3.698 l 1.677 -3.698 L 49.45 29.025 l -3.698 -1.677 z m -10.836 3.5475 l 4.171 3.1605 l -5.375 9.3095 l -4.816 -2.021 c -0.43 0.2795 -0.903 0.559 -1.376 0.7955 l -0.645 5.16 h -10.75 l -0.645 -5.1815 c -0.473 -0.2365 -0.9245 -0.4945 -1.376 -0.7955 l -4.816 2.021 l -5.375 -9.3095 l 4.171 -3.1605 c -0.0215 -0.2365 -0.0215 -0.516 -0.0215 -0.774 s 0 -0.5375 0.0215 -0.7955 l -4.171 -3.1605 l 5.375 -9.3095 l 4.816 2.021 c 0.43 -0.2795 0.903 -0.559 1.376 -0.7955 L 16.125 12.9 h 10.75 l 0.645 5.1815 c 0.473 0.2365 0.9245 0.4945 1.376 0.7955 l 4.816 -2.021 l 5.375 9.3095 l -4.171 3.1605 c 0.0215 0.258 0.0215 0.516 0.0215 0.7955 s 0 0.516 -0.0215 0.774 z M 27.95 30.1 c 0 -3.569 -2.881 -6.45 -6.45 -6.45 s -6.45 2.881 -6.45 6.45 s 2.881 6.45 6.45 6.45 s 6.45 -2.881 6.45 -6.45 z'
 		);
 		iconPath.setAttribute('fill', 'currentColor');
-		
+
 		tabSvg.appendChild(iconPath);
 
-		let tabLabel = document.createElement("label");
-		tabLabel.classList.add('sc-16k2ql4-0', 'dGescJ', 'sc-qhd6ow-2', 'cqoMlm', 'FIE_tab-label', 'SfxLabel-root');
-		
-		let tabSpan = document.createElement("span");
+		let tabLabel = document.createElement('label');
+		tabLabel.classList.add(
+			'sc-16k2ql4-0',
+			'dGescJ',
+			'sc-qhd6ow-2',
+			'cqoMlm',
+			'FIE_tab-label',
+			'SfxLabel-root'
+		);
+
+		let tabSpan = document.createElement('span');
 		tabSpan.classList.add('sc-16k2ql4-1', 'llQteX', 'SfxLabel-text');
 		tabSpan.innerHTML = 'Presets';
 		tabLabel.appendChild(tabSpan);
 
-		let tab = document.createElement("div")
+		let tab = document.createElement('div');
 		tab.classList.add('sc-qhd6ow-1', 'bDBhuu', 'FIE_tab', 'custom');
-		tab.setAttribute("aria-selected", "false");
+		tab.setAttribute('aria-selected', 'false');
 		tab.addEventListener('click', () => {
-			const builtinTabs = Array.from(document.getElementsByClassName('FIE_tab'));
-			builtinTabs.map(el => el.setAttribute("aria-selected", "false"));
-			tab.setAttribute("aria-selected", "true");
+			const builtinTabs = Array.from(
+				document.getElementsByClassName('FIE_tab')
+			);
+			builtinTabs.map((el) => el.setAttribute('aria-selected', 'false'));
+			tab.setAttribute('aria-selected', 'true');
 			dispatch(setPresetsListState(true));
-		})
+		});
 		tab.appendChild(tabSvg);
 		tab.appendChild(tabLabel);
 		return tab;
-	}
+	};
 
 	useEffect(() => {
 		if (!tabAdded && showEditor) {
 			setTimeout(() => {
-				const tabsList = Array.from(document.getElementsByClassName('FIE_tabs'))
+				const tabsList = Array.from(
+					document.getElementsByClassName('FIE_tabs')
+				);
 				const presetsTab = addTab();
 				tabsList[0]?.append(presetsTab);
 
 				const tabs = Array.from(tabsList[0]?.children);
 				tabs.map((tab, index) => {
-					if( index < 6 ) {
+					if (index < 6) {
 						tab.addEventListener('click', () => {
-							const customTab = Array.from(document.getElementsByClassName('custom'))
-							customTab.map(el => el.setAttribute("aria-selected", "false"))
-						})
+							const customTab = Array.from(
+								document.getElementsByClassName('custom')
+							);
+							customTab.map((el) => el.setAttribute('aria-selected', 'false'));
+						});
 					}
-				})
+				});
 				setTabAdded(true);
 			}, 200);
 		}
 		setTabAdded(false);
 	}, [showEditor]);
 
+	function dataURLtoFile(dataurl, filename) {
+		var arr = dataurl.split(','),
+			mime = arr[0].match(/:(.*?);/)[1],
+			bstr = atob(arr[arr.length - 1]),
+			n = bstr.length,
+			u8arr = new Uint8Array(n);
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+		return new File([u8arr], filename, { type: mime });
+	}
+
+	useEffect(() => {
+		if (shareImage) {
+			const file = dataURLtoFile(
+				imageRef.current().imageData.imageBase64,
+				`${imageName}.${imageType}`
+			);
+			navigator.share({
+				title: 'Share your Image',
+				text: 'Created with Dive',
+				files: [file],
+			});
+			dispatch(setShareImage(false));
+		}
+	}, [shareImage]);
 
 	return (
 		<div>
@@ -177,7 +225,7 @@ const ImageEditor = () => {
 					<FilerobotImageEditor
 						source={imageSrc}
 						loadableDesignState={preset}
-						// getCurrentImgDataFnRef={imageRef}
+						getCurrentImgDataFnRef={imageRef}
 						// updateStateFnRef={imageRef}
 						onSave={(imageData, imageDesignState) => {
 							FileSaver.saveAs(imageData.imageBase64, imageData.fullName);

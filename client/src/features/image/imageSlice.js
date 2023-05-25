@@ -7,6 +7,7 @@ const imageSlice = createSlice({
 		imageName: '',
 		imageType: '',
 		showEditor: false,
+		shareImage: false,
 	},
 	reducers: {
 		setImageData: (state, action) => {
@@ -17,10 +18,14 @@ const imageSlice = createSlice({
 		setEditorState: (state, action) => {
 			state.showEditor = action.payload;
 		},
+		setShareImage: (state, action) => {
+			state.shareImage = action.payload;
+		},
 	},
 });
 
-export const { setImageData, setEditorState } = imageSlice.actions;
+export const { setImageData, setEditorState, setShareImage } =
+	imageSlice.actions;
 
 export default imageSlice.reducer;
 
@@ -28,3 +33,4 @@ export const selectImageSrc = (state) => state.image.imageSrc;
 export const selectImageName = (state) => state.image.imageName;
 export const selectImageType = (state) => state.image.imageType;
 export const selectShowEditor = (state) => state.image.showEditor;
+export const selectShareImage = (state) => state.image.shareImage;

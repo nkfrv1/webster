@@ -21,15 +21,16 @@ import '../../../App.scss';
 import UploadFileSharpIcon from '@mui/icons-material/UploadFileSharp';
 import PaidSharpIcon from '@mui/icons-material/PaidSharp';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import ShareSharpIcon from '@mui/icons-material/ShareSharp';
 
 import {
 	setImageData,
 	setEditorState,
+	setShareImage,
 	selectShowEditor,
 } from '../../../features/image/imageSlice';
 
 import { setPresetsListState } from '../../../features/preset/presetSlice';
-import ShareModal from './ShareModal';
 
 const drawerWidth = 180;
 function CustomDrawer() {
@@ -51,6 +52,7 @@ function CustomDrawer() {
 
 		input.onchange = () => {
 			const files = Array.from(input.files);
+			// dispatch(setImageFile(files[0]));
 			imageName = files[0].name.split('.')[0];
 			imageType = files[0].type.split('/')[1];
 			dispatch(setEditorState(false));
@@ -72,6 +74,10 @@ function CustomDrawer() {
 		setOpenShare(false);
 	};
 
+	const handleShare = () => {
+		dispatch(setShareImage(true));
+	};
+
 	return (
 		<Drawer
 			className="drawer-wr"
@@ -86,7 +92,6 @@ function CustomDrawer() {
 			}}
 		>
 			<Toolbar />
-			<ShareModal open={openShare} handleClose={handleClose} />
 			<Box sx={{ overflow: 'auto' }}>
 				<List>
 					{/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
@@ -133,12 +138,9 @@ function CustomDrawer() {
 				</List>
 				<Divider />
 				<ListItem key="share" disablePadding>
-					<ListItemButton
-						disabled={!isEditorOpen}
-						onClick={() => setOpenShare(true)}
-					>
+					<ListItemButton disabled={!isEditorOpen} onClick={handleShare}>
 						<ListItemIcon>
-							<SettingsSuggestIcon />
+							<ShareSharpIcon />
 						</ListItemIcon>
 						<ListItemText primary={'Share'} />
 					</ListItemButton>

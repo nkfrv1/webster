@@ -17,11 +17,11 @@ export class UsersService {
     }
 
     async findAll() {
-        return this.userModel.find();
+        return this.userModel.find().populate('images');
     }
 
     async findOne(id: string) {
-        const target = await this.userModel.findById(id);
+        const target = await this.userModel.findById(id).populate('images');
         if (!target) {
             throw new HttpException('User not found', HttpStatus.NOT_FOUND);
         }

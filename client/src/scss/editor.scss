@@ -7,7 +7,7 @@ $bg-2: rgba(12, 12, 12, 1);
 .editor-wr {
 	background-color: $bg-1 !important;
 	margin-left: 179px;
-
+	
 	.btn-add-photo-wr {
 		width: 100%;
 		height: 100%;
@@ -35,50 +35,7 @@ $bg-2: rgba(12, 12, 12, 1);
 	//   flex-direction: row !important;
 	height: 100%;
 
-	.FIE_tools-bar-wrapper {
-		.FIE_tools-bar {
-			//   display: flex !important;
-			//   align-items: flex-start;
-			//   flex-direction: column !important;
-		}
-	}
-
-	.FIE_canvas-container {
-	}
-
-	.FIE_filters-wrapper {
-		//   background-color: red;
-		//   height: 80vh;
-		//   overflow-y: scroll;
-		//   .FIE_carousel-next-button, .FIE_carousel-prev-button{
-		//     display: none !important;
-		//   }
-	}
 }
-
-// .FIE_filters-items {
-//   display: flex;
-//   flex-direction: column;
-//   li {
-//     width: 100%;
-//     div {
-//         width: 100%;
-//         min-height: 100px;
-//         height: 100%;
-//         div{
-//             div{
-//                 width: 100%;
-//                 height: 100%;
-//                 canvas {
-//                     width: 100%;
-//                     height: 100%;
-//                 }
-//             }
-//         }
-//     }
-//   }
-// }
-
 .presets_drawer {
 	.MuiBackdrop-root {
 		background: none !important;

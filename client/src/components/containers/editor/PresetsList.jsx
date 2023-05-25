@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import FilerobotImageEditor from 'react-filerobot-image-editor';
-import { Stage, Layer, Image, Rect } from 'react-konva';
+import FilerobotImageEditor from 'filerobot-image-editor';
 import {
 	Drawer,
 	Button,
@@ -18,10 +16,7 @@ import {
 	selectPresetsListState,
 } from '../../../features/preset/presetSlice';
 
-import {
-	selectImageSrc,
-	setEditorState,
-} from '../../../features/image/imageSlice';
+import { selectImageSrc } from '../../../features/image/imageSlice';
 
 import '../../../scss/editor.scss';
 
@@ -58,7 +53,6 @@ function PresetsList() {
 				filter: null,
 			},
 		},
-
 		{
 			title: 'Sepia with Crop for Twitter',
 			opts: {
@@ -82,6 +76,22 @@ function PresetsList() {
 		},
 	];
 
+	const drawPreview = (config, index) => {
+		setTimeout(() => {
+			const filerobotImageEditor = new FilerobotImageEditor(
+				document.querySelector(`#preview_image_${index}`),
+				config
+			);
+
+			filerobotImageEditor.render({
+				onClose: (closingReason) => {
+					console.log('Closing reason', closingReason);
+					filerobotImageEditor.terminate();
+				},
+			});
+		});
+	};
+
 	const toggleDrawer = (open) => (event) => {
 		if (
 			event.type === 'keydown' &&
@@ -89,33 +99,35 @@ function PresetsList() {
 		) {
 			return;
 		}
-
-		dispatch(setEditorState(false));
 		dispatch(setPresetsListState(open));
-		setTimeout(() => {
-			dispatch(setEditorState(true));
-		}, 240);
+	};
+
+	const handleApply = (preset) => {
+		dispatch(setPresetsListState(false));
+		dispatch(setPreset(preset));
 	};
 
 	const list = (
 		<List className="preset_list-wr">
-			{presets.map((preset) => (
+			{presets.map((preset, index) => (
 				<ListItem key={preset.title}>
 					<ListItemAvatar>
-						<div className="preview_image-wr">
-							<FilerobotImageEditor
-								source={imageSrc}
-								loadableDesignState={preset.opts}
-								showCanvasOnly={true}
-								disableZooming={true}
-								defaultToolId=""
-							/>
-							
+						<div className="preview_image-wr" id={`preview_image_${index}`}>
+							{drawPreview(
+								{
+									source: imageSrc,
+									loadableDesignState: preset.opts,
+									showCanvasOnly: true,
+									disableZooming: true,
+									defaultToolId: '',
+								},
+								index
+							)}
 						</div>
 					</ListItemAvatar>
 					<ListItemText primary={preset.title} />
 					<Button
-						onClick={() => dispatch(setPreset(preset.opts))}
+						onClick={() => handleApply(preset.opts)}
 						variant="contained"
 						color="success"
 					>

@@ -1,15 +1,12 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import FileSaver from 'file-saver';
-import FilerobotImageEditor, {
-	TABS,
-	TOOLS,
-} from 'react-filerobot-image-editor';
+import FilerobotImageEditor from 'react-filerobot-image-editor';
 
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import SocialMediaCrops from '../../../app/editorCrops';
-import { Button, TextField, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 
 import {
 	setImageData,
@@ -21,13 +18,19 @@ import {
 	selectShowEditor,
 	selectShareImage,
 } from '../../../features/image/imageSlice';
+
 import {
-	selectPreset,
+	setCreatePreset,
 	setPresetsListState,
+	selectPresets,
+	selectSelectedPreset,
+	selectCreatePreset,
+	setPresets,
 } from '../../../features/preset/presetSlice';
 
 import CustomDrawer from '../layout/CustomDrawer';
 import PresetsList from './PresetsList';
+import CreatePreset from './CreatePreset';
 
 import '../../../scss/editor.scss';
 const styledTheme = {
@@ -50,9 +53,17 @@ const ImageEditor = () => {
 	const imageSrc = useSelector(selectImageSrc);
 	const imageName = useSelector(selectImageName);
 	const imageType = useSelector(selectImageType);
+
 	const showEditor = useSelector(selectShowEditor);
 	const shareImage = useSelector(selectShareImage);
-	const preset = useSelector(selectPreset);
+	const createPreset = useSelector(selectCreatePreset);
+
+	const presetToApply = useSelector(selectSelectedPreset);
+	const presets = useSelector(selectPresets);
+
+	const [presetModalOpen, setPresetModalOpen] = useState(false);
+	const [submitTitle, setSubmitTitle] = useState(false);
+	const [title, setTitle] = useState('New Custom Preset');
 	const [tabAdded, setTabAdded] = useState(false);
 	let imageSrcNew = '';
 	let imageNameNew = '';
@@ -158,6 +169,18 @@ const ImageEditor = () => {
 		return tab;
 	};
 
+	const dataURLtoFile = (dataurl, filename) => {
+		var arr = dataurl.split(','),
+			mime = arr[0].match(/:(.*?);/)[1],
+			bstr = atob(arr[arr.length - 1]),
+			n = bstr.length,
+			u8arr = new Uint8Array(n);
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+		return new File([u8arr], filename, { type: mime });
+	};
+
 	useEffect(() => {
 		if (!tabAdded && showEditor) {
 			setTimeout(() => {
@@ -179,22 +202,10 @@ const ImageEditor = () => {
 					}
 				});
 				setTabAdded(true);
-			}, 200);
+			}, 1000);
 		}
 		setTabAdded(false);
 	}, [showEditor]);
-
-	function dataURLtoFile(dataurl, filename) {
-		var arr = dataurl.split(','),
-			mime = arr[0].match(/:(.*?);/)[1],
-			bstr = atob(arr[arr.length - 1]),
-			n = bstr.length,
-			u8arr = new Uint8Array(n);
-		while (n--) {
-			u8arr[n] = bstr.charCodeAt(n);
-		}
-		return new File([u8arr], filename, { type: mime });
-	}
 
 	useEffect(() => {
 		if (shareImage) {
@@ -211,10 +222,47 @@ const ImageEditor = () => {
 		}
 	}, [shareImage]);
 
+	useEffect(() => {
+		if (createPreset) {
+			setPresetModalOpen(true);
+			dispatch(setCreatePreset(false));
+		}
+	}, [createPreset]);
+
+	useEffect(() => {
+		if (submitTitle) {
+			let designState = imageRef.current().designState;
+			designState.id = presets[presets.length - 1].id + 1;
+			const presetToAdd = {
+				id: designState.id,
+				title,
+				opts: {
+					annotations: designState.annotations,
+					filter: designState.filter,
+					finetunes: designState.finetunes,
+					finetunesProps: designState.finetunesProps,
+					resize: designState.resize,
+					shownImageDimensions: designState.shownImageDimensions,
+				},
+			};
+
+			dispatch(setPresets(presetToAdd));
+
+			setSubmitTitle(false);
+		}
+	}, [submitTitle]);
+
 	return (
 		<div>
 			<CustomDrawer />
 			<PresetsList />
+			<CreatePreset
+				open={presetModalOpen}
+				setOpen={setPresetModalOpen}
+				title={title}
+				setTitle={setTitle}
+				setSubmit={setSubmitTitle}
+			/>
 			<div
 				style={{ width: 'calc(100%-179px)', height: 'calc(100vh - 64px)' }}
 				className="editor-wr"
@@ -224,7 +272,7 @@ const ImageEditor = () => {
 				{showEditor ? (
 					<FilerobotImageEditor
 						source={imageSrc}
-						loadableDesignState={preset}
+						loadableDesignState={presetToApply}
 						getCurrentImgDataFnRef={imageRef}
 						// updateStateFnRef={imageRef}
 						onSave={(imageData, imageDesignState) => {

@@ -19,8 +19,10 @@ import {
 
 import '../../../App.scss';
 import UploadFileSharpIcon from '@mui/icons-material/UploadFileSharp';
-import PaidSharpIcon from '@mui/icons-material/PaidSharp';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp';
+import GetAppSharpIcon from '@mui/icons-material/GetAppSharp';
+import PublishSharpIcon from '@mui/icons-material/PublishSharp';
 import ShareSharpIcon from '@mui/icons-material/ShareSharp';
 
 import {
@@ -30,14 +32,16 @@ import {
 	selectShowEditor,
 } from '../../../features/image/imageSlice';
 
-import { setPresetsListState } from '../../../features/preset/presetSlice';
+import {
+	setCreatePreset,
+	setPresetsListState,
+} from '../../../features/preset/presetSlice';
 
 const drawerWidth = 180;
 function CustomDrawer() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isEditorOpen = useSelector(selectShowEditor);
-	const [openShare, setOpenShare] = useState(false);
 	let imageSrc = '';
 	let imageName = '';
 	let imageType = '';
@@ -78,6 +82,10 @@ function CustomDrawer() {
 		dispatch(setShareImage(true));
 	};
 
+	const handleCreate = () => {
+		dispatch(setCreatePreset(true));
+	};
+
 	return (
 		<Drawer
 			className="drawer-wr"
@@ -94,16 +102,6 @@ function CustomDrawer() {
 			<Toolbar />
 			<Box sx={{ overflow: 'auto' }}>
 				<List>
-					{/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))} */}
 					<ListItem key="upload" disablePadding>
 						<ListItemButton onClick={handleFile}>
 							<ListItemIcon>
@@ -123,18 +121,30 @@ function CustomDrawer() {
 							<ListItemText primary={'Presets'} />
 						</ListItemButton>
 					</ListItem>
-					{/* <ListItem key="donation" disablePadding>
-						<ListItemButton
-							onClick={(e) => {
-								alert('You got fooled :)');
-							}}
-						>
+					<ListItem key="create-preset" disablePadding>
+						<ListItemButton disabled={!isEditorOpen} onClick={handleCreate}>
 							<ListItemIcon>
-								<PaidSharpIcon />
+								<AddCircleOutlineSharpIcon />
 							</ListItemIcon>
-							<ListItemText primary={'Donation'} />
+							<ListItemText primary={'Create Preset'} />
 						</ListItemButton>
-					</ListItem> */}
+					</ListItem>
+					<ListItem key="export-presets" disablePadding>
+						<ListItemButton disabled={!isEditorOpen}>
+							<ListItemIcon>
+								<PublishSharpIcon />
+							</ListItemIcon>
+							<ListItemText primary={'Export Presets'} />
+						</ListItemButton>
+					</ListItem>
+					<ListItem key="import-preset" disablePadding>
+						<ListItemButton disabled={!isEditorOpen}>
+							<ListItemIcon>
+								<GetAppSharpIcon />
+							</ListItemIcon>
+							<ListItemText primary={'Import Presets'} />
+						</ListItemButton>
+					</ListItem>
 				</List>
 				<Divider />
 				<ListItem key="share" disablePadding>
@@ -142,7 +152,7 @@ function CustomDrawer() {
 						<ListItemIcon>
 							<ShareSharpIcon />
 						</ListItemIcon>
-						<ListItemText primary={'Share'} />
+						<ListItemText primary={'Share Image'} />
 					</ListItemButton>
 				</ListItem>
 			</Box>

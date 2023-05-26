@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import FilerobotImageEditor from 'filerobot-image-editor';
 import {
@@ -11,85 +12,51 @@ import {
 } from '@mui/material';
 
 import {
-	setPreset,
+	setPresets,
+	setSelectedPreset,
 	setPresetsListState,
+	selectPresets,
 	selectPresetsListState,
+	deletePreset,
 } from '../../../features/preset/presetSlice';
 
 import { selectImageSrc } from '../../../features/image/imageSlice';
 
 import '../../../scss/editor.scss';
+import defaultPresets from '../../../data/presets.json';
 
 function PresetsList() {
 	const dispatch = useDispatch();
 	const open = useSelector(selectPresetsListState);
 	const imageSrc = useSelector(selectImageSrc);
-	const presets = [
-		{
-			title: 'Bright Moon',
-			opts: {
-				filter: 'Moon',
-				finetunes: ['Brighten'],
-				finetunesProps: { brightness: 0.1 },
-			},
-		},
-		{
-			title: 'Bright Sepia',
-			opts: {
-				filter: 'Sepia',
-				finetunes: ['Brighten'],
-				finetunesProps: { brightness: 0.55 },
-			},
-		},
-		{
-			title: 'Black&White',
-			opts: {
-				filter: 'BlackAndWhite',
-			},
-		},
-		{
-			title: 'Orignal',
-			opts: {
-				filter: null,
-			},
-		},
-		{
-			title: 'Sepia with Crop for Twitter',
-			opts: {
-				adjustments: {
-					crop: {
-						isFlippedX: false,
-						isFlippedY: false,
-						ratio: 0.84211,
-						ratioFolderKey: 'socialMedia',
-						ratioGroupKey: 'twitter',
-						ratioTitleKey: 'profilePhoto',
-						rotation: 0,
+	const presets = useSelector(selectPresets);
+
+	useEffect(() => {
+		if (!localStorage.getItem('presets')) {
+			localStorage.setItem('presets', JSON.stringify(defaultPresets));
+		}
+		const storedPresets = localStorage.getItem('presets');
+		if (storedPresets) {
+			dispatch(setPresets(JSON.parse(storedPresets)));
+		}
+	}, []);
+
+	const renderPreview = (config, index) => {
+		if (open) {
+			setTimeout(() => {
+				const filerobotImageEditor = new FilerobotImageEditor(
+					document.querySelector(`#preview_image_${index}`),
+					config
+				);
+
+				filerobotImageEditor.render({
+					onClose: (closingReason) => {
+						console.log('Closing reason', closingReason);
+						filerobotImageEditor.terminate();
 					},
-				},
-				annotations: {},
-				filter: 'Sepia',
-				finetunes: ['Brighten'],
-				finetunesProps: { brightness: 0 },
-				resize: { ratioUnlocked: true, manualChangeDisabled: false },
-			},
-		},
-	];
-
-	const drawPreview = (config, index) => {
-		setTimeout(() => {
-			const filerobotImageEditor = new FilerobotImageEditor(
-				document.querySelector(`#preview_image_${index}`),
-				config
-			);
-
-			filerobotImageEditor.render({
-				onClose: (closingReason) => {
-					console.log('Closing reason', closingReason);
-					filerobotImageEditor.terminate();
-				},
+				});
 			});
-		});
+		}
 	};
 
 	const toggleDrawer = (open) => (event) => {
@@ -104,16 +71,20 @@ function PresetsList() {
 
 	const handleApply = (preset) => {
 		dispatch(setPresetsListState(false));
-		dispatch(setPreset(preset));
+		dispatch(setSelectedPreset(preset));
+	};
+
+	const handleDeletePreset = (id) => {
+		dispatch(deletePreset(id));
 	};
 
 	const list = (
 		<List className="preset_list-wr">
 			{presets.map((preset, index) => (
-				<ListItem key={preset.title}>
+				<ListItem key={preset.id}>
 					<ListItemAvatar>
 						<div className="preview_image-wr" id={`preview_image_${index}`}>
-							{drawPreview(
+							{renderPreview(
 								{
 									source: imageSrc,
 									loadableDesignState: preset.opts,
@@ -132,6 +103,13 @@ function PresetsList() {
 						color="success"
 					>
 						Apply
+					</Button>
+					<Button
+						onClick={() => handleDeletePreset(preset.id)}
+						variant="contained"
+						color="error"
+					>
+						delete
 					</Button>
 				</ListItem>
 			))}

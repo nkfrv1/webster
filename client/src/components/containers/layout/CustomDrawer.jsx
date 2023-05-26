@@ -24,6 +24,7 @@ import AddCircleOutlineSharpIcon from '@mui/icons-material/AddCircleOutlineSharp
 import GetAppSharpIcon from '@mui/icons-material/GetAppSharp';
 import PublishSharpIcon from '@mui/icons-material/PublishSharp';
 import ShareSharpIcon from '@mui/icons-material/ShareSharp';
+import TelegramIcon from '@mui/icons-material/Telegram';
 
 import {
 	setImageData,
@@ -77,7 +78,12 @@ function CustomDrawer() {
 	const handleClose = () => {
 		setOpenShare(false);
 	};
+	const handleBot = () => {
+		const telegramBotUrl = "https://t.me/DiveDesignBot";
 
+		// Redirect the user to the Telegram bot URL.
+		window.location.href = telegramBotUrl;
+	}
 	const handleShare = () => {
 		dispatch(setShareImage(true));
 	};
@@ -153,6 +159,14 @@ function CustomDrawer() {
 							<ShareSharpIcon />
 						</ListItemIcon>
 						<ListItemText primary={'Share Image'} />
+					</ListItemButton>
+				</ListItem>
+				<ListItem key="bot" disablePadding>
+					<ListItemButton onClick={handleBot}>
+						<ListItemIcon>
+							<TelegramIcon />
+						</ListItemIcon>
+						<ListItemText primary={'Telegram Bot'} />
 					</ListItemButton>
 				</ListItem>
 			</Box>

@@ -119,6 +119,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
+
             .social-rectangle {
                 backdrop-filter: sepia(0.7);
                 max-width: 900px;
@@ -134,10 +135,12 @@
                 position: absolute;
                 z-index: 4;
             }
+
             .social-media-stack {
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
                 svg {
                     // scale: 1;
                     opacity: 0;
@@ -233,6 +236,36 @@
         }
 
     }
+
+    .section-fours {
+        align-items: center;
+        .stroke-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            path {
+                fill: none;
+                stroke-width: 10px;
+                stroke: rgba(255, 255, 255, 0.267);
+                // animation: stroke 4s linear;
+            }
+    
+            .cls-1 {
+                stroke-dasharray: 10000;
+                stroke-dashoffset: 6590;
+            }
+        }
+
+        p {
+            font-size: 60px;
+            color: #C7D1D9;
+            font-family: 'Poppins-Regular';
+            position: relative;
+            z-index: 3;
+            transform: translateY(50px);
+            transition: all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1);
+        }
+    }
 }
 
 .toTop {
@@ -255,5 +288,15 @@
 
     100% {
         left: -100%;
+    }
+}
+
+@keyframes stroke {
+    from {
+        stroke-dashoffset: 10000;
+    }
+
+    to {
+        stroke-dashoffset: 6590;
     }
 }

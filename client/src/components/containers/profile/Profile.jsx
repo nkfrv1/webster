@@ -1,52 +1,69 @@
 import { useState, useEffect } from 'react';
 import useAuth from '../../../hooks/useAuth';
-
+import { CircularProgress } from '@mui/material/';
+import {
+	useGetImagesQuery,
+	useGetImageQuery,
+} from '../../../features/image/imageApiSlice';
 import '../../../scss/profile.scss';
 
-function CarouselItem({ index, item, currentindex }) {
-	return (
-		<div
-			className="carousel-item"
-			key={index}
-			style={{ transform: `translate(-${currentindex * 100}%)` }}
-		>
+function CarouselItem({ index, item, currentindex, id }) {
+	const { data, isLoading } = useGetImageQuery(id);
+	console.log(data);
+	let content = null;
+	if (!isLoading) {
+		content = (
 			<div
-				className="carousel-item-background"
-				style={{
-					backgroundImage: `url(${item.src})`,
-					backgroundSize: 'cover',
-					filter: `blur(${currentindex === index ? '7px' : '7px'})`,
-					position: 'absolute',
-					top: 0,
-					left: 0,
-					width: '100%',
-					height: '100%',
-				}}
-			/>
-			<img
-				className="carousel-item-image"
-				src={item.src}
-				style={{
-					objectFit: 'contain',
-					position: 'relative',
-					zIndex: 2,
-					maxWidth: '100%',
-					maxHeight: '100%',
-				}}
-			/>
-			<div className="carousel-item-toolbar">
-				<div>
-					<p>Edit</p>
-				</div>
-				<div>
-					<p>Share</p>
+				className="carousel-item"
+				key={index}
+				style={{ transform: `translate(-${currentindex * 100}%)` }}
+			>
+				<div
+					className="carousel-item-background"
+					style={{
+						// backgroundImage: `url(${item.src})`,
+						backgroundImage: `url(${data.source})`,
+						backgroundSize: 'cover',
+						filter: `blur(${currentindex === index ? '7px' : '7px'})`,
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						width: '100%',
+						height: '100%',
+					}}
+				/>
+				<img
+					className="carousel-item-image"
+					// src={item.src}
+					src={data.source}
+					style={{
+						objectFit: 'contain',
+						position: 'relative',
+						zIndex: 2,
+						maxWidth: '100%',
+						maxHeight: '100%',
+					}}
+				/>
+				<div className="carousel-item-toolbar">
+					<div>
+						<p>Edit</p>
+					</div>
+					<div>
+						<p>Share</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	);
+		);
+	} else if (isLoading) {
+		content = <CircularProgress />;
+	}
+	return content;
 }
 
 function Carousel() {
+	const { id } = useAuth();
+	// const id = '646bcef97635da8db37561a7';
+	const [imagesIds, setImagesIds] = useState([]);
 	let data = [
 		{ src: 'https://picsum.photos/id/345/1920/1080/' },
 		{ src: 'https://picsum.photos/id/212/1920/1080' },
@@ -56,6 +73,17 @@ function Carousel() {
 	];
 	const [currentindex, setCurrentindex] = useState(0);
 
+	const { data: allImages, isSuccess } = useGetImagesQuery();
+	useEffect(() => {
+		if (isSuccess) {
+			allImages.map((item) => {
+				if (item.userId === id) {
+					setImagesIds((prev) => [...prev, item]);
+				}
+			});
+		}
+	}, [isSuccess]);
+
 	const handleDotClick = (index) => {
 		setCurrentindex(index);
 	};
@@ -63,7 +91,7 @@ function Carousel() {
 	return (
 		<div className="carousel-container">
 			<div className="dots-wr">
-				{data.map((item, index) => {
+				{imagesIds.map((item, index) => {
 					return (
 						<div
 							className={`dot ${currentindex === index ? 'active' : ''}`}
@@ -73,7 +101,7 @@ function Carousel() {
 					);
 				})}
 			</div>
-			{data.length === 0 ? (
+			{imagesIds.length === 0 ? (
 				<div
 					style={{
 						display: 'flex',
@@ -86,9 +114,10 @@ function Carousel() {
 				</div>
 			) : (
 				<div className="carousel-wr">
-					{data.map((item, index) => {
+					{imagesIds.map((item, index) => {
 						return (
 							<CarouselItem
+								id={item._id}
 								item={item}
 								index={index}
 								currentindex={currentindex}
@@ -103,6 +132,7 @@ function Carousel() {
 
 function UserProfile() {
 	const { name, surname, email } = useAuth();
+
 	return (
 		<div className="profile-wr">
 			<div className="profile-data">

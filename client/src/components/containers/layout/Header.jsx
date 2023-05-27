@@ -39,9 +39,9 @@ function Header() {
 		}
 	};
 
-	const handleNavigate = () => {
+	const handleNavigate = (path) => {
 		handleClose();
-		navigate('/profile');
+		navigate(path);
 	};
 
 	return (
@@ -80,7 +80,12 @@ function Header() {
 								<MoreVertIcon />
 							</IconButton>
 							<Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-								<MenuItem onClick={handleNavigate}>My Profile</MenuItem>
+								<MenuItem onClick={() => handleNavigate('/profile')}>
+									My Profile
+								</MenuItem>
+								<MenuItem onClick={() => handleNavigate('/editor')}>
+									Editor
+								</MenuItem>
 								<Divider />
 								<MenuItem onClick={handleLogout}>Logout</MenuItem>
 							</Menu>

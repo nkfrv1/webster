@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 
@@ -15,6 +16,7 @@ async function bootstrap() {
             transformOptions: { enableImplicitConversion: true },
         }),
     );
+    app.use(cookieParser());
     app.enableCors({
         origin: [process.env.CLIENT_URL],
         credentials: true,

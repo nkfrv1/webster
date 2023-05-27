@@ -101,7 +101,7 @@ const ImageEditor = () => {
 		ev.preventDefault();
 		let input = document.createElement('input');
 		input.type = 'file';
-
+		input.accept = 'image/png, image/jpg, image/jpeg, image/webp, image/gif'
 		input.onchange = () => {
 			const files = Array.from(input.files);
 			imageNameNew = files[0].name.split('.')[0];

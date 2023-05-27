@@ -54,7 +54,7 @@ function CustomDrawer() {
 	const handleFile = () => {
 		let input = document.createElement('input');
 		input.type = 'file';
-
+		input.accept = 'image/png, image/jpg, image/jpeg, image/webp, image/gif';
 		input.onchange = () => {
 			const files = Array.from(input.files);
 			// dispatch(setImageFile(files[0]));

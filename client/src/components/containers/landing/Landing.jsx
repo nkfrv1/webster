@@ -1,17 +1,19 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { motion, useInView, useAnimate, useScroll } from 'framer-motion'
-import { Box, Typography, Button, IconButton, Stack } from '@mui/material'
+import { Box, Typography, Button, IconButton, Stack, Icon } from '@mui/material'
 import { Facebook, Instagram, Telegram, Pinterest, Twitter } from '@mui/icons-material';
 import '../../../scss/landing.scss'
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import { useNavigate } from 'react-router'
+import TelegramIcon from '@mui/icons-material/Telegram';
+import Footer from './Footer';
 
-function StrokeContainer({animate}) {
+function StrokeContainer({ animate }) {
   const refStroke = useRef(null)
   const invStroke = useInView(refStroke, { once: true });
   useEffect(() => {
     invStroke ?
-      animate("#layer2-2 path", {style: "animation: stroke 4s linear"}, {duration: 1})
+      animate("#layer2-2 path", { style: "animation: stroke 4s linear" }, { duration: 1 })
       : ""
   }, [invStroke])
   return (
@@ -35,6 +37,7 @@ function Landing() {
   const refText3 = useRef(null);
   const refToTop = useRef(null);
   const refDashed = useRef(null);
+  const refBot = useRef(null);
   const refPresetsContainer = useRef(null)
   const invToTop = useInView(refToTop, { once: false });
   const invText = useInView(refText1, { once: true });
@@ -65,8 +68,8 @@ function Landing() {
 
   useEffect(() => {
     const sequence = [
-      ['.text-s4', {  opacity: 1 }, {duration: 2 }],
-      ['.text-s4', { transform: "translate(-100%, 120px)" }, {delay: 0, duration: 0.7 }],
+      ['.text-s4', { opacity: 1 }, { duration: 2 }],
+      ['.text-s4', { transform: "translate(-100%, 120px)" }, { delay: 0, duration: 1.1 }],
     ]
     invText3 ? animate(sequence) : ''
   }, [invText3])
@@ -146,6 +149,34 @@ function Landing() {
           <p className="text-s4">Just draw!</p>
         </Box>
       </Box>
+      <Box className="landing section-fifth" >
+        <p>We also have Telegram bot</p>
+        <Box className="paperplane">
+          <div className="plane">
+            <div className="wingRight"></div>
+            <div className="wingLeft"></div>
+            <div className="bottom"></div>
+            <div className="top"></div>
+            <div className="middle"></div>
+          </div>
+        </Box>
+        <Box className="bot-wr" ref={refBot}>
+          <Box className="bot-container" >
+            <p className="bot-title">What can this bot do?</p>
+            <p className="bot-lower">Use this to quickly edit photos and create collages. Dive in and be with Dive.</p>
+          </Box>
+          <Box className="user-container">
+            <p className="user-title">Apply different filters! Just in a few clicks <span role="img" aria-label="male"> 👨‍🎨 </span><span role="img" aria-label="female"> 👩‍🎨 </span> </p>
+          </Box>
+          <Box sx={{display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: '10%'}}>
+            <p style={{ fontSize: '20px' }}>{"Interested? =>"}</p>
+            <IconButton className='bot-button' onClick={() => {window.location.href = "https://t.me/DiveDesignBot"}}>
+              <TelegramIcon />
+            </IconButton>
+          </Box>
+        </Box>
+      </Box>
+      <Footer />
       <Box className="toTop" >
         <a href='#top-element'>
           <IconButton >

@@ -239,32 +239,47 @@
 
     .section-fours {
         align-items: center;
+        justify-content: center;
         .stroke-container {
             width: 100%;
-            height: 100%;
             position: absolute;
+            display: flex;
+            align-items: center;
             path {
                 fill: none;
                 stroke-width: 10px;
                 stroke: rgba(255, 255, 255, 0.267);
                 // animation: stroke 4s linear;
             }
-    
+
             .cls-1 {
                 stroke-dasharray: 10000;
                 stroke-dashoffset: 6590;
             }
         }
 
+        .shine-text {
+            position: relative;
+            // left: 10%;
+            top: -20%;
+        }
         p {
             font-size: 60px;
-            color: #C7D1D9;
+            opacity: 0;
             font-family: 'Poppins-Regular';
             position: relative;
             z-index: 3;
-            transform: translateY(50px);
+            transform: translate(-20px, 140px);
             transition: all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1);
+            color: transparent;
+            background-image: linear-gradient(to right, #FF0 0%, #0FF 20%, #00F 40%, rgb(145, 248, 171) 65%, #FF0 100%);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
         }
+
     }
 }
 
@@ -279,6 +294,20 @@
     opacity: 0;
     transform: translateY(400px);
     z-index: 999;
+}
+
+@keyframes shine {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
 }
 
 @keyframes inf_slider {

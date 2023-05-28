@@ -1,18 +1,42 @@
 import { useState, useEffect } from 'react';
-import useAuth from '../../../hooks/useAuth';
+import { useDispatch } from 'react-redux';
 import { CircularProgress } from '@mui/material/';
+import { useNavigate } from 'react-router';
+
 import {
 	useGetImagesQuery,
 	useGetImageQuery,
 } from '../../../features/image/imageApiSlice';
+import {
+	setImageData,
+	setEditorState,
+} from '../../../features/image/imageSlice';
+import useAuth from '../../../hooks/useAuth';
 
 import ShareModal from './ShareModal';
+import DeleteModal from './DeleteModal';
 import '../../../scss/profile.scss';
 
 function CarouselItem({ index, item, currentindex, id }) {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [openShareModal, setOpenShareModal] = useState(false);
+	const [openDeleteModal, setOpenDeleteModal] = useState(false);
 	const { data, isLoading } = useGetImageQuery(id);
 	let content = null;
+	console.log(data);
+
+	const handleEdit = () => {
+		dispatch(
+			setImageData({
+				imageSrc: data.source,
+				imageName: data.name.split('.')[0],
+				imageType: data.name.split('.')[1],
+			})
+		);
+		dispatch(setEditorState(true));
+		navigate('/editor');
+	};
 
 	if (!isLoading) {
 		content = (
@@ -21,6 +45,11 @@ function CarouselItem({ index, item, currentindex, id }) {
 					open={openShareModal}
 					setOpen={setOpenShareModal}
 					imgSrc={data.source}
+				/>
+				<DeleteModal
+					open={openDeleteModal}
+					setOpen={setOpenDeleteModal}
+					imageId={data._id}
 				/>
 				<div
 					className="carousel-item"
@@ -54,11 +83,14 @@ function CarouselItem({ index, item, currentindex, id }) {
 						}}
 					/>
 					<div className="carousel-item-toolbar">
-						<div onClick={() => console.log('edit')}>
+						<div onClick={handleEdit}>
 							<p>Edit</p>
 						</div>
 						<div onClick={() => setOpenShareModal(true)}>
 							<p>Share</p>
+						</div>
+						<div onClick={() => setOpenDeleteModal(true)}>
+							<p>Delete</p>
 						</div>
 					</div>
 				</div>
@@ -84,6 +116,7 @@ function Carousel() {
 	const [currentindex, setCurrentindex] = useState(0);
 
 	const { data: allImages, isSuccess } = useGetImagesQuery();
+
 	useEffect(() => {
 		if (isSuccess) {
 			allImages.map((item) => {
@@ -92,7 +125,7 @@ function Carousel() {
 				}
 			});
 		}
-	}, [isSuccess]);
+	}, [isSuccess, allImages]);
 
 	const handleDotClick = (index) => {
 		setCurrentindex(index);
@@ -106,7 +139,7 @@ function Carousel() {
 						<div
 							className={`dot ${currentindex === index ? 'active' : ''}`}
 							onClick={() => handleDotClick(index)}
-							key={index}
+							key={item._id}
 						/>
 					);
 				})}
@@ -127,6 +160,7 @@ function Carousel() {
 					{imagesIds.map((item, index) => {
 						return (
 							<CarouselItem
+								key={item._id}
 								id={item._id}
 								item={item}
 								index={index}

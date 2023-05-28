@@ -22,18 +22,21 @@ export const imageApiSlice = apiSlice.injectEndpoints({
 					config,
 				};
 			},
+			providesTags: () => [{ type: 'Image', id: 'LIST' }],
 		}),
 		getImages: builder.query({
 			query: () => ({
 				url: '/images',
 				method: 'GET',
 			}),
+			providesTags: () => [{ type: 'Image', id: 'LIST' }],
 		}),
 		getImage: builder.query({
 			query: (id) => ({
 				url: `/images/${id}`,
 				method: 'GET',
 			}),
+			providesTags: () => [{ type: 'Image', id: 'LIST' }],
 		}),
 		patchImage: builder.mutation({
 			query: (credentials) => {
@@ -59,6 +62,7 @@ export const imageApiSlice = apiSlice.injectEndpoints({
 				url: `/images/${id}`,
 				method: 'DELETE',
 			}),
+			invalidatesTags: () => [{ type: 'Image', id: 'LIST' }],
 		}),
 	}),
 });

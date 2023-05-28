@@ -73,7 +73,7 @@ const ImageEditor = () => {
 	const [submitTitle, setSubmitTitle] = useState(false);
 	const [uploadAlertOpen, setUploadAlertOpen] = useState(false);
 	const [alertText, setAlertText] = useState('');
-	const [alertSeverity, setAlertSeverity] = useState('');
+	const [alertSeverity, setAlertSeverity] = useState('success');
 
 	const [tabAdded, setTabAdded] = useState(false);
 	let imageSrcNew = '';

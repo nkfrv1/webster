@@ -5,54 +5,64 @@ import {
 	useGetImagesQuery,
 	useGetImageQuery,
 } from '../../../features/image/imageApiSlice';
+
+import ShareModal from './ShareModal';
 import '../../../scss/profile.scss';
 
 function CarouselItem({ index, item, currentindex, id }) {
+	const [openShareModal, setOpenShareModal] = useState(false);
 	const { data, isLoading } = useGetImageQuery(id);
-	console.log(data);
 	let content = null;
+
 	if (!isLoading) {
 		content = (
-			<div
-				className="carousel-item"
-				key={index}
-				style={{ transform: `translate(-${currentindex * 100}%)` }}
-			>
+			<>
+				<ShareModal
+					open={openShareModal}
+					setOpen={setOpenShareModal}
+					imgSrc={data.source}
+				/>
 				<div
-					className="carousel-item-background"
-					style={{
-						// backgroundImage: `url(${item.src})`,
-						backgroundImage: `url(${data.source})`,
-						backgroundSize: 'cover',
-						filter: `blur(${currentindex === index ? '7px' : '7px'})`,
-						position: 'absolute',
-						top: 0,
-						left: 0,
-						width: '100%',
-						height: '100%',
-					}}
-				/>
-				<img
-					className="carousel-item-image"
-					// src={item.src}
-					src={data.source}
-					style={{
-						objectFit: 'contain',
-						position: 'relative',
-						zIndex: 2,
-						maxWidth: '100%',
-						maxHeight: '100%',
-					}}
-				/>
-				<div className="carousel-item-toolbar">
-					<div>
-						<p>Edit</p>
-					</div>
-					<div>
-						<p>Share</p>
+					className="carousel-item"
+					key={index}
+					style={{ transform: `translate(-${currentindex * 100}%)` }}
+				>
+					<div
+						className="carousel-item-background"
+						style={{
+							// backgroundImage: `url(${item.src})`,
+							backgroundImage: `url(${data.source})`,
+							backgroundSize: 'cover',
+							filter: `blur(${currentindex === index ? '7px' : '7px'})`,
+							position: 'absolute',
+							top: 0,
+							left: 0,
+							width: '100%',
+							height: '100%',
+						}}
+					/>
+					<img
+						className="carousel-item-image"
+						// src={item.src}
+						src={data.source}
+						style={{
+							objectFit: 'contain',
+							position: 'relative',
+							zIndex: 2,
+							maxWidth: '100%',
+							maxHeight: '100%',
+						}}
+					/>
+					<div className="carousel-item-toolbar">
+						<div onClick={() => console.log('edit')}>
+							<p>Edit</p>
+						</div>
+						<div onClick={() => setOpenShareModal(true)}>
+							<p>Share</p>
+						</div>
 					</div>
 				</div>
-			</div>
+			</>
 		);
 	} else if (isLoading) {
 		content = <CircularProgress />;

@@ -12,25 +12,31 @@ import {
 	setImageData,
 	setEditorState,
 	setShareImage,
+	setSaveImage,
 	selectImageSrc,
 	selectImageName,
 	selectImageType,
 	selectShowEditor,
 	selectShareImage,
+	selectSaveImage,
 } from '../../../features/image/imageSlice';
 
 import {
+	setPresets,
 	setCreatePreset,
 	setPresetsListState,
 	selectPresets,
 	selectSelectedPreset,
 	selectCreatePreset,
-	setPresets,
 } from '../../../features/preset/presetSlice';
+
+import { useSaveImageMutation } from '../../../features/image/imageApiSlice';
+import useAuth from '../../../hooks/useAuth';
 
 import CustomDrawer from '../layout/CustomDrawer';
 import PresetsList from './PresetsList';
 import CreatePreset from './CreatePreset';
+import UploadAlert from './UploadAlert';
 
 import '../../../scss/editor.scss';
 const styledTheme = {
@@ -57,18 +63,26 @@ const ImageEditor = () => {
 	const showEditor = useSelector(selectShowEditor);
 	const shareImage = useSelector(selectShareImage);
 	const createPreset = useSelector(selectCreatePreset);
+	const saveImage = useSelector(selectSaveImage);
 
 	const presetToApply = useSelector(selectSelectedPreset);
 	const presets = useSelector(selectPresets);
 
 	const [presetModalOpen, setPresetModalOpen] = useState(false);
-	const [submitTitle, setSubmitTitle] = useState(false);
 	const [title, setTitle] = useState('New Custom Preset');
+	const [submitTitle, setSubmitTitle] = useState(false);
+	const [uploadAlertOpen, setUploadAlertOpen] = useState(false);
+	const [alertText, setAlertText] = useState('');
+	const [alertSeverity, setAlertSeverity] = useState('');
+
 	const [tabAdded, setTabAdded] = useState(false);
 	let imageSrcNew = '';
 	let imageNameNew = '';
 	let imageTypeNew = '';
+
 	const imageRef = {};
+	const { id } = useAuth();
+	const [saveImageMutation, { isError }] = useSaveImageMutation();
 
 	function handleDropFile(event) {
 		event.preventDefault();
@@ -101,7 +115,7 @@ const ImageEditor = () => {
 		ev.preventDefault();
 		let input = document.createElement('input');
 		input.type = 'file';
-		input.accept = 'image/png, image/jpg, image/jpeg, image/webp, image/gif'
+		input.accept = 'image/png, image/jpg, image/jpeg, image/webp, image/gif';
 		input.onchange = () => {
 			const files = Array.from(input.files);
 			imageNameNew = files[0].name.split('.')[0];
@@ -223,6 +237,37 @@ const ImageEditor = () => {
 	}, [shareImage]);
 
 	useEffect(() => {
+		if (saveImage) {
+			async function handleSaveImage() {
+				try {
+					const file = dataURLtoFile(
+						imageRef.current().imageData.imageBase64,
+						`${imageName}.${imageType}`
+					);
+					await saveImageMutation({
+						name: imageName,
+						userId: id,
+						file,
+					}).unwrap();
+
+					if (!isError) {
+						setAlertText('Image saved successfully');
+						setAlertSeverity('success');
+						setUploadAlertOpen(true);
+					}
+					dispatch(setSaveImage(false));
+				} catch (error) {
+					console.log(error);
+					setAlertText(error.data.message);
+					setAlertSeverity('error');
+					setUploadAlertOpen(true);
+				}
+			}
+			handleSaveImage();
+		}
+	}, [saveImage]);
+
+	useEffect(() => {
 		if (createPreset) {
 			setPresetModalOpen(true);
 			dispatch(setCreatePreset(false));
@@ -262,6 +307,12 @@ const ImageEditor = () => {
 				title={title}
 				setTitle={setTitle}
 				setSubmit={setSubmitTitle}
+			/>
+			<UploadAlert
+				open={uploadAlertOpen}
+				setOpen={setUploadAlertOpen}
+				text={alertText}
+				severity={alertSeverity}
 			/>
 			<div
 				style={{ width: 'calc(100%-179px)', height: 'calc(100vh - 64px)' }}

@@ -44,6 +44,11 @@ function Header() {
 		navigate(path);
 	};
 
+	const handleNaviagteAuth = (hash) => {
+		navigate('/auth');
+		window.location.hash = hash;
+	};
+
 	return (
 		<AppBar
 			className="appbar-wr"
@@ -52,10 +57,6 @@ function Header() {
 			sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
 		>
 			<Toolbar sx={{ dipslay: 'flex', justifyContent: 'space-between' }}>
-				{/* <Typography variant="h6" noWrap component="div" sx={{cursor: 'pointer'}} onClick={()=>{navigate('/')}}>
-					Dive
-				
-				</Typography> */}
 				<img
 					onClick={() => {
 						navigate('/');
@@ -100,7 +101,7 @@ function Header() {
 									alignItems: 'center',
 								}}
 								onClick={() => {
-									navigate('/auth#sign-in');
+									handleNaviagteAuth('#sign-in');
 								}}
 							>
 								Login
@@ -116,7 +117,7 @@ function Header() {
 									alignItems: 'center',
 								}}
 								onClick={() => {
-									navigate('/auth#sign-up');
+									handleNaviagteAuth('#sign-up');
 								}}
 							>
 								Sign Up

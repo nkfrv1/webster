@@ -5,7 +5,9 @@ export const imageApiSlice = apiSlice.injectEndpoints({
 		saveImage: builder.mutation({
 			query: (credentials) => {
 				const formData = new FormData();
-				formData.append('file', credentials.file, credentials.file.name);
+				formData.append('image', credentials.file, credentials.file.name);
+				formData.append('name', credentials.name);
+				formData.append('userId', credentials.userId);
 
 				const config = {
 					headers: {
@@ -36,7 +38,7 @@ export const imageApiSlice = apiSlice.injectEndpoints({
 		patchImage: builder.mutation({
 			query: (credentials) => {
 				const formData = new FormData();
-				formData.append('file', credentials.file, credentials.file.name);
+				formData.append('image', credentials.file, credentials.file.name);
 
 				const config = {
 					headers: {

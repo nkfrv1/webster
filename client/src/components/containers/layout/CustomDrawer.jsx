@@ -25,24 +25,29 @@ import GetAppSharpIcon from '@mui/icons-material/GetAppSharp';
 import PublishSharpIcon from '@mui/icons-material/PublishSharp';
 import ShareSharpIcon from '@mui/icons-material/ShareSharp';
 import TelegramIcon from '@mui/icons-material/Telegram';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 import {
 	setImageData,
 	setEditorState,
 	setShareImage,
 	selectShowEditor,
+	setSaveImage,
 } from '../../../features/image/imageSlice';
 
 import {
 	setCreatePreset,
 	setPresetsListState,
 } from '../../../features/preset/presetSlice';
+import useAuth from '../../../hooks/useAuth';
 
 const drawerWidth = 180;
 function CustomDrawer() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isEditorOpen = useSelector(selectShowEditor);
+
+	const { isAuth } = useAuth();
 	let imageSrc = '';
 	let imageName = '';
 	let imageType = '';
@@ -57,7 +62,6 @@ function CustomDrawer() {
 		input.accept = 'image/png, image/jpg, image/jpeg, image/webp, image/gif';
 		input.onchange = () => {
 			const files = Array.from(input.files);
-			// dispatch(setImageFile(files[0]));
 			imageName = files[0].name.split('.')[0];
 			imageType = files[0].type.split('/')[1];
 			dispatch(setEditorState(false));
@@ -75,21 +79,23 @@ function CustomDrawer() {
 		input.click();
 	};
 
-	const handleClose = () => {
-		setOpenShare(false);
-	};
 	const handleBot = () => {
-		const telegramBotUrl = "https://t.me/DiveDesignBot";
+		const telegramBotUrl = 'https://t.me/DiveDesignBot';
 
 		// Redirect the user to the Telegram bot URL.
 		window.location.href = telegramBotUrl;
-	}
+	};
+
 	const handleShare = () => {
 		dispatch(setShareImage(true));
 	};
 
 	const handleCreate = () => {
 		dispatch(setCreatePreset(true));
+	};
+
+	const handleSave = () => {
+		dispatch(setSaveImage(true));
 	};
 
 	return (
@@ -114,6 +120,17 @@ function CustomDrawer() {
 								<UploadFileSharpIcon />
 							</ListItemIcon>
 							<ListItemText primary={'Upload'} />
+						</ListItemButton>
+					</ListItem>
+					<ListItem key="save" disablePadding>
+						<ListItemButton
+							onClick={handleSave}
+							disabled={!isAuth || !isEditorOpen}
+						>
+							<ListItemIcon>
+								<LibraryAddIcon />
+							</ListItemIcon>
+							<ListItemText primary={'Save Image'} />
 						</ListItemButton>
 					</ListItem>
 					<ListItem key="presets" disablePadding>

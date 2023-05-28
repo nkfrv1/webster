@@ -56,7 +56,7 @@ function Auth() {
 				};
 				await register(user).unwrap();
 				if (!registerError) {
-					navigate('/auth#sign-in');
+					window.location.hash = '#sign-in';
 				}
 			} catch (error) {
 				setError(true);

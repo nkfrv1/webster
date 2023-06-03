@@ -48,8 +48,8 @@ export class AuthService {
         );
         const tokens = this.tokenService.generateTokens({
             sub: id,
-            email: email,
-            name: name,
+            email,
+            name,
         });
         await this.tokenService.saveRefreshToken(id, tokens.refreshToken);
         return {
@@ -71,8 +71,8 @@ export class AuthService {
             await this.usersService.findByEmail(payload.email);
         const tokens = this.tokenService.generateTokens({
             sub: id,
-            email: email,
-            name: name,
+            email,
+            name,
         });
         await this.tokenService.saveRefreshToken(id, tokens.refreshToken);
         return {

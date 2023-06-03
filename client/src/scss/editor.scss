@@ -1,0 +1,64 @@
+$primary: rgba(69, 80, 89, 1);
+$typography: rgb(231, 235, 238);
+$section: rgba(109, 128, 140, 1);
+$bg-1: rgba(26, 38, 0, 1);
+$bg-2: rgba(12, 12, 12, 1);
+
+.editor-wr {
+	background-color: $bg-1 !important;
+	margin-left: 179px;
+	
+	.btn-add-photo-wr {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.btn-add-photo {
+			svg {
+				height: 300px;
+				width: 300px;
+			}
+		}
+	}
+}
+
+.FIE_tabs {
+	overflow: hidden;
+}
+
+.FIE_tab {
+	width: 100px !important;
+}
+
+.FIE_editor-content {
+	//   flex-direction: row !important;
+	height: 100%;
+
+}
+.presets_drawer {
+	.MuiBackdrop-root {
+		background: none !important;
+	}
+}
+
+.preset_list-wr {
+	width: 100%;
+	min-width: 350;
+	display: flex;
+	gap: 30px;
+	flex-flow: column wrap;
+
+	> li {
+		gap: 10px;
+	}
+}
+
+.preview_image-wr * {
+	background: none !important;
+	width: 70px;
+	height: 70px;
+	min-height: 0 !important;
+	padding: 0px !important;
+	margin: 0px !important;
+}

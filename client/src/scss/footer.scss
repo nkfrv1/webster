@@ -1,0 +1,28 @@
+.footer-wr {
+    height: 200px;
+    border-top: 1px solid rgba(255, 255, 255, 0.719);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    .sections {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        .section {
+            display: flex;
+            flex-direction: column;
+            color: aliceblue;
+            font-size: 30px;
+            margin: 20px 40px;
+
+
+            .item {
+                display: flex;
+                font-size: 1rem;
+                align-items: center;
+                color: rgb(236, 230, 230)
+            }
+        }
+    }
+}

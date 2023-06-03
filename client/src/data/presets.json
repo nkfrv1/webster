@@ -1,0 +1,59 @@
+[
+	{
+		"id": 1,
+		"title": "Orignal",
+		"opts": {
+			"annotations": {},
+			"filter": null,
+			"finetunes": {},
+			"finetunesProps": {}
+		}
+	},
+	{
+		"id": 2,
+		"title": "Black&White",
+		"opts": {
+			"filter": "BlackAndWhite"
+		}
+	},
+	{
+		"id": 3,
+		"title": "Bright Moon",
+		"opts": {
+			"filter": "Moon",
+			"finetunes": ["Brighten"],
+			"finetunesProps": { "brightness": 0.1 }
+		}
+	},
+	{
+		"id": 4,
+		"title": "Bright Sepia",
+		"opts": {
+			"filter": "Sepia",
+			"finetunes": ["Brighten"],
+			"finetunesProps": { "brightness": 0.55 }
+		}
+	},
+	{
+		"id": 5,
+		"title": "Sepia with Crop for Twitter",
+		"opts": {
+			"adjustments": {
+				"crop": {
+					"isFlippedX": false,
+					"isFlippedY": false,
+					"ratio": 0.84211,
+					"ratioFolderKey": "socialMedia",
+					"ratioGroupKey": "twitter",
+					"ratioTitleKey": "profilePhoto",
+					"rotation": 0
+				}
+			},
+			"annotations": {},
+			"filter": "Sepia",
+			"finetunes": ["Brighten"],
+			"finetunesProps": { "brightness": 0 },
+			"resize": { "ratioUnlocked": true, "manualChangeDisabled": false }
+		}
+	}
+]

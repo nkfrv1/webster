@@ -1,10 +1,13 @@
 import {
+    ForbiddenException,
     HttpException,
     HttpStatus,
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
+import { MailerService } from '@nestjs-modules/mailer';
 import { compare, hash } from 'bcrypt';
+import { randomUUID } from 'crypto';
 import { UsersService } from 'src/users/users.service';
 import { TokensService } from 'src/tokens/tokens.service';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -12,9 +15,12 @@ import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class AuthService {
+    userRequestedReset: { id: string; token: string };
+
     constructor(
         private readonly usersService: UsersService,
         private readonly tokenService: TokensService,
+        private readonly mailService: MailerService,
     ) {}
 
     async register(newUser: RegisterUserDto) {
@@ -90,6 +96,44 @@ export class AuthService {
         }
         await this.tokenService.eraseRefreshToken(token);
         return 'Logged Out';
+    }
+
+    async resetPassword(email: string) {
+        const user = await this.usersService.findByEmail(email);
+        if (!user) {
+            throw new HttpException(
+                `User with given email doesn't exist`,
+                HttpStatus.BAD_REQUEST,
+            );
+        }
+        const confirmToken = randomUUID();
+        this.userRequestedReset = { id: user.id, token: confirmToken };
+        await this.mailService.sendMail({
+            to: email,
+            subject: 'Reset Password on Dive',
+            template: 'password-reset',
+            context: {
+                link: `${process.env.CLIENT_URL}/auth#reset-password/${confirmToken}`,
+            },
+        });
+        return 'Password reset link sent to your email. Please check your inbox and follow the instructions provided.';
+    }
+
+    async confirmReset(token: string, newPassword: string) {
+        if (!this.userRequestedReset?.token) {
+            throw new ForbiddenException();
+        }
+        if (token !== this.userRequestedReset.token) {
+            throw new HttpException(
+                `Provided token doesn't match the sent token`,
+                HttpStatus.BAD_REQUEST,
+            );
+        }
+        await this.usersService.update(this.userRequestedReset.id, {
+            password: await hash(newPassword, 4),
+        });
+        this.userRequestedReset = undefined;
+        return 'Your password has been successfully changed';
     }
 
     private async validateUser(email: string, password: string) {

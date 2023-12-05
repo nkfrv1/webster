@@ -25,9 +25,7 @@ function App() {
 						<Route path="auth" element={<Auth />} />
 						<Route path="editor" element={<ImageEditor />} />
 						{/* Private Routes */}
-						<Route element={<RequireAuth />}>
-							<Route path="profile" element={<UserProfile />} />
-						</Route>
+						<Route path="profile" element={<UserProfile />} />
 					</Route>
 				</Route>
 			</Routes>
